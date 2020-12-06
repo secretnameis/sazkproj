@@ -1,6 +1,6 @@
 // projektsazk.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+//test
 #include <iostream>
 #include <ctype.h>              // tolower
 #include <stdlib.h>	            //system
