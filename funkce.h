@@ -5,8 +5,7 @@ struct t_sporty
 {
     char  nazevsportu[ZNACKA_SIZE];
     int   rok;
-    char  tymy[30];
+    char  album[30];
     struct t_sporty* dalsi;
 };
 
-//test niceho
