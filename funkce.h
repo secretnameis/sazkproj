@@ -3,15 +3,16 @@
 
 struct t_databaze //seznam na veci z bodu 1
 {
-    char  sport[ZNACKA_SIZE];
-    char  liga[ZNACKA_SIZE];
+    char  sport[ZNACKA_SIZE]; 
+    char  liga[ZNACKA_SIZE]; 
     char  tym[ZNACKA_SIZE];
     char  kurz[ZNACKA_SIZE];
     struct t_databaze* dalsi;
 };
 
 struct t_zapasy //veci na bod2: podrobne infomace o zapasu
-{
+{ 
+    int cislozap; //id zapasu
     char tema[ZNACKA_SIZE];
     char cas[ZNACKA_SIZE];
     char datum[ZNACKA_SIZE];
