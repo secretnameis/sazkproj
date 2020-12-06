@@ -9,6 +9,7 @@
 void pridat()
 {
 	char  cm;
+	system("cls");
 	printf("S: sport   ");
 	printf("L: ligu    ");
 	printf("T: tym     ");
@@ -57,8 +58,6 @@ void zobrazit()
 int main()
 {
 	char  cmd;
-	int roz;
-	int t;
 	do
 	{
 		system("cls");		// smaze obrazovku
