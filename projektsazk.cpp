@@ -6,37 +6,31 @@
 #include <stdlib.h>	            //system
 #include "funkce.h"
 
-void pridat()
+void Onadd()
 {
 	char  cm;
 	system("cls");
-	printf("S: sport   ");
-	printf("L: ligu    ");
-	printf("T: tym     ");
+	printf("co chces pridat:\n");
 	printf("Z: zapas   ");
-	printf("K: kurz    ");
+	printf("S: sport   ");
+	printf("V: sazky   ");
 	printf("Q: main menu\n\n");
 	cm = tolower(getchar());
 	while (getchar() != '\n');
 
 	switch (cm)
 	{
-	case 's':
-		//sport					
-		break;
-	case 'l':
-		//ligu					
-		break;
-	case 't':
-		//Tym;					
-		break;
 	case 'z':
-		//zapas
+		//zapas + informace  cas,datum,misto, sazky
 		break;
 
-	case 'k':
-		//kurz
+	case 's':
+		//sport tymy,ligy, kurz					
 		break;
+	case 'v':
+		//moznosti sazky
+		break;
+
 	
 	} while (cm != 'q');     // koncime az pri Q
     
@@ -44,7 +38,7 @@ void pridat()
 
 }
 
-void smazat()
+void Ondel()
 {}
 
 void editovat()
@@ -73,11 +67,11 @@ int main()
 		switch (cmd)
 		{
 		case 'a':
-			pridat();
+			Onadd();
 			break;
 
 		case 'd':
-			smazat();					
+			Ondel();					
 			break;
 		case 'e':
 			editovat();					
