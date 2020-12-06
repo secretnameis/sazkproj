@@ -25,13 +25,3 @@ struct t_zapasy //veci na bod2: podrobne infomace o zapasu
 
 void pridat(char* sport, char* liga, char* tym, char* zapas,char* kurz , struct t_databaze** uk_prvni);
 void smazat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct t_databaze** uk_prvni);
-
-    char  nazevsportu[ZNACKA_SIZE];
-    int   rok;
-    char  tymy[30];
-    struct t_sporty* dalsi;
-};
-
-//test niceho
-//tesrt merge
-
