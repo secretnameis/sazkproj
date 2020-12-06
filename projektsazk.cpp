@@ -3,6 +3,11 @@
 #include <stdlib.h>	 //system
 #include "funkce.h"
 
+struct t_databaze* prvni = NULL; // globalni ukazatel na prvni pozici
+struct t_zapasy* prvni = NULL; // globalni ukazatel na prvni auto
+
+
+
 void Onadd() // pridavani veci do seznamu
 {
 	char  cm;
@@ -44,6 +49,8 @@ void Onadd() // pridavani veci do seznamu
 		scanf_s("%s", my_stav, ZNACKA_SIZE);
 		while (getchar() != '\n');
 		//funkce a predat parametry
+		//void addzapas(char* tema, char* cas, char* datum, char* misto, char* stav, t_zapasy** uk_prvni)
+		addzapas(my_tema,my_cas,my_datum,my_misto,my_stav,&prvni);
 
 		break;
 
