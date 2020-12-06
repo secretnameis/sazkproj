@@ -78,10 +78,10 @@ int main()
 			break;
 
 		case 'd':
-			smazat();					// volame mazani
+			smazat();					
 			break;
 		case 'e':
-			editovat();					// volame mazani
+			editovat();					
 			break;
 		case 'p':
 			zobrazit();
