@@ -12,7 +12,7 @@ struct t_databaze //seznam na veci z bodu 1
 };
 
 struct t_zapasy //veci na bod2: podrobne infomace o zapasu
-{  
+{  //ulozit treba spolecne s info z t_databaze na jeden radek v txt, to pak vypisovat (oddelit treba ;)
     int cislozap; //id zapasu
     char tema[ZNACKA_SIZE];
     char cas[ZNACKA_SIZE];
