@@ -6,7 +6,7 @@
 #include <stdlib.h>	            //system
 #include "funkce.h"
 
-void Onadd()
+void Onadd() // pridavani veci do seznamu
 {
 	char  cm;
 	system("cls");
@@ -39,13 +39,16 @@ void Onadd()
 }
 
 void Ondel()
-{}
+{//mazani, pridat vyber co mazat; ochrana pred smazanim sportu pokud ma registrovan zapas
+}
 
 void editovat()
-{}
+{//asi se bude komplet prepisovat vybrany retezec
+}
 
 void zobrazit()
-{}
+{//tisk vsech informaci nebo vybrane informace
+}
 
 
 
@@ -81,5 +84,7 @@ int main()
 			break;
 		}
 	} while (cmd != 'q');     // koncime az pri Q
+
+	//tady odkaz na zapis vseho do souboru
 	return 0;
 }

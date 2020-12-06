@@ -10,5 +10,5 @@ void pridat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct 
 
 void smazat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct t_databaze** uk_prvni)
 {
-
+	printf("test");
 }
