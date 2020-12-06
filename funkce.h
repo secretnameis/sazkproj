@@ -10,3 +10,4 @@ struct t_sporty
 };
 
 //test niceho
+//tesrt merge
