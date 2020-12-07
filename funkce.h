@@ -1,6 +1,6 @@
 #pragma once
 #define ZNACKA_SIZE 30
-
+   
 struct t_databaze //seznam na veci z bodu 1
 {
     char  sport[ZNACKA_SIZE];  // sporty + id do souboru sport.txt

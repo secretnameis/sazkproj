@@ -10,8 +10,6 @@ using namespace std;
 struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
 struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 
-//test   zmnea merge
-//dasdasdsa
 
 void Onadd() // pridavani veci do seznamu
 {
