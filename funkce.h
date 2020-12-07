@@ -25,12 +25,12 @@ struct t_zapasy //veci na bod2: podrobne infomace o zapasu
 
 
 
-
+ 
 //seznam ukolu 
 /*
 ziskavani id pro zapasy, aby to nekolidovalo po smaz�n�
 zapis do souboru
 cteni ze souboru do pole
 funkce mazat
-
+ 
 */
