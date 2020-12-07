@@ -3,8 +3,8 @@
 #include <stdlib.h>	 //system
 #include "funkce.h"
 
-struct t_databaze* prvni = NULL; // globalni ukazatel na prvni pozici
-struct t_zapasy* prvni = NULL; // globalni ukazatel na prvni auto
+struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
+struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 
 
 
@@ -28,6 +28,7 @@ void Onadd() // pridavani veci do seznamu
 		char my_datum[ZNACKA_SIZE];
 		char my_misto[ZNACKA_SIZE];
 		char my_stav[ZNACKA_SIZE];
+		int my_id;
 		//zapas id se ziska automaticky
 		printf("\ntema zapasu:"); 
 		scanf_s("%s", my_tema, ZNACKA_SIZE);
@@ -48,9 +49,10 @@ void Onadd() // pridavani veci do seznamu
 		printf("\nstav zapasu:");
 		scanf_s("%s", my_stav, ZNACKA_SIZE);
 		while (getchar() != '\n');
+		my_id=1;
 		//funkce a predat parametry
 		//void addzapas(char* tema, char* cas, char* datum, char* misto, char* stav, t_zapasy** uk_prvni)
-		addzapas(my_tema,my_cas,my_datum,my_misto,my_stav,&prvni);
+		addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep);
 
 		break;
 
@@ -85,7 +87,7 @@ void Onadd() // pridavani veci do seznamu
 		break;
 
 	
-	} while (cm != 'q');     // koncime az pri Q
+	} 
     
 
 

@@ -13,6 +13,7 @@ void addzapas(int idzap, char* tema, char* cas, char* datum, char* misto, char* 
 	
 	//naplneni struktury
 	//strcpy_s(novyzapas->cas, 30, cas);    nekde ziskat ID  WIP
+	novyzapas->idzap = idzap;
 	strcpy_s(novyzapas->tema, 30, tema);
 	strcpy_s(novyzapas->cas, 30, cas);
 	strcpy_s(novyzapas->datum, 30, datum);

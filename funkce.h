@@ -1,5 +1,5 @@
 #pragma once
-#define ZNACKA_SIZE 15
+#define ZNACKA_SIZE 30
 
 struct t_databaze //seznam na veci z bodu 1
 {
