@@ -5,6 +5,151 @@
 
 //struct t_zapasy* ukazatel = NULL;
 
+void addsport(int sport_id, char* sport_nazev, sport** sport_prvni)
+{
+	struct sport* novysport;
+	struct sport* aktsport;
+
+	// alokace dynamicke promenne
+	novysport = (struct sport*)malloc(sizeof(struct sport));
+
+	novysport->sport_id = sport_id;
+	strcpy_s(novysport->sport_nazev, 30, sport_nazev); // naplneni struktury
+	novysport->sport_dalsi = NULL;
+
+
+	if (*sport_prvni == NULL) // linearni seznam je prazdny
+	{
+		*sport_prvni = novysport;
+		return;
+	}
+	else if (novysport->sport_id < (*sport_prvni)->sport_id) // vlozime na zacatek
+	{
+		novysport->sport_dalsi = *sport_prvni;
+		*sport_prvni = novysport;
+		return;
+	}
+
+	aktsport = *sport_prvni;
+	while (aktsport) // prochazeni seznamu
+	{
+		if (aktsport->sport_dalsi == NULL) // jsme na poslednim aute
+		{
+			aktsport->sport_dalsi = novysport; // pridavame na konec
+			return;
+		}
+		else if (novysport->sport_id < aktsport->sport_dalsi->sport_id)
+		{
+			novysport->sport_dalsi = aktsport->sport_dalsi; // vlozime za aktAuto
+			aktsport->sport_dalsi = novysport;
+			return;
+		}
+		aktsport = aktsport->sport_dalsi; // posun na dalsi auto
+	}
+
+}
+
+void addliga(int liga_id, char* liga_nazev, liga** liga_prvni)
+{
+	struct liga* novaliga;
+	struct liga* aktliga;
+
+	// alokace dynamicke promenne
+	novaliga = (struct liga*)malloc(sizeof(struct liga));
+
+	novaliga->liga_id = liga_id;
+	strcpy_s(novaliga->liga_nazev, 30, liga_nazev); // naplneni struktur
+
+	novaliga->liga_dalsi = NULL;
+
+
+	if (*liga_prvni == NULL) // linearni seznam je prazdny
+	{
+		*liga_prvni = novaliga;
+		return;
+	}
+	else if (novaliga->liga_id < (*liga_prvni)->liga_id) // vlozime na zacatek
+	{
+		novaliga->liga_dalsi = *liga_prvni;
+		*liga_prvni = novaliga;
+		return;
+	}
+
+	aktliga = *liga_prvni;
+	while (aktliga) // prochazeni seznamu
+	{
+		if (aktliga->liga_dalsi == NULL) // jsme na poslednim aute
+		{
+			aktliga->liga_dalsi = novaliga; // pridavame na konec
+			return;
+		}
+		else if (novaliga->liga_id < aktliga->liga_dalsi->liga_id)
+		{
+			novaliga->liga_dalsi = aktliga->liga_dalsi; // vlozime za aktAuto
+			aktliga->liga_dalsi = novaliga;
+			return;
+		}
+		aktliga = aktliga->liga_dalsi; // posun na dalsi auto
+	}
+
+}
+
+void addtym(int tym_id, char* tym_nazev, int tym_sport, int tym_liga, tym** tym_prvni)
+{
+	struct tym* novytym;
+	struct tym* akttym;
+
+	// alokace dynamicke promenne
+	novytym = (struct tym*)malloc(sizeof(struct tym));
+
+	novytym->tym_id = tym_id;
+	strcpy_s(novytym->tym_nazev, 30, tym_nazev); // naplneni struktur
+	novytym->tym_sport = tym_sport;
+	novytym->tym_liga = tym_liga;
+	novytym->tym_dalsi = NULL;
+
+
+	if (*tym_prvni == NULL) // linearni seznam je prazdny
+	{
+		*tym_prvni = novytym;
+		return;
+	}
+	else if (novytym->tym_id < (*tym_prvni)->tym_id) // vlozime na zacatek
+	{
+		novytym->tym_dalsi = *tym_prvni;
+		*tym_prvni = novytym;
+		return;
+	}
+
+	akttym = *tym_prvni;
+	while (akttym) // prochazeni seznamu
+	{
+		if (akttym->tym_dalsi == NULL) // jsme na poslednim aute
+		{
+			akttym->tym_dalsi = novytym; // pridavame na konec
+			return;
+		}
+		else if (novytym->tym_id < akttym->tym_dalsi->tym_id)
+		{
+			novytym->tym_dalsi = akttym->tym_dalsi; // vlozime za akttym
+			akttym->tym_dalsi = novytym;
+			return;
+		}
+		akttym = akttym->tym_dalsi; // posun na dalsi tym
+	}
+
+}
+
+void addzapas(int zapas_id, int zapas_sport, int zapas_liga, char* zapas_datum, char* zapas_misto, int zapas_tymA, int zapas_tymB, int zapas_skoreA, int zapas_skoreB, char* zapas_sazka, zapas** zapas_prvni)
+{
+}
+
+
+
+
+
+//jiz neplati, bude predelano
+/*
 void addzapas(int idzap, char* tema, char* cas, char* datum, char* misto, char* stav, struct t_zapasy** uk_prvni)
 {
 	struct t_zapasy* novyzapas; // ukazatel pro novy zapas
@@ -114,7 +259,7 @@ void smazat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct 
 {
 	printf("test");
 }
-
+*/
 
 
 
