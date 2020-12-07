@@ -24,6 +24,16 @@ struct t_zapasy //veci na bod2: podrobne infomace o zapasu
 };
 
 
-void addzapas(int idzap, char* tema, char* cas, char* datum, char* misto, char* stav, struct t_zapasy** uk_prvni);
-void pridat(char* sport, char* liga, char* tym, char* zapas,char* kurz , struct t_databaze** uk_prvni);  //upravit
+void addzapas(int idzap, char* tema, char* cas, char* datum, char* misto, char* stav, struct t_zapasy** uk_prvni); // dodelat ziskani id zapasu
+void addinfo(int spid, char* sport, char* liga, char* tym, char* kurz , struct t_databaze** uk_prvni);  //upravit
 void smazat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct t_databaze** uk_prvni); //upravit
+
+
+//seznam ukolu 
+/*
+ziskavani id pro zapasy, aby to nekolidovalo po smazání
+zapis do souboru
+cteni ze souboru do pole
+funkce mazat
+
+*/

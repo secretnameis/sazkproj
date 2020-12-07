@@ -49,10 +49,16 @@ void Onadd() // pridavani veci do seznamu
 		printf("\nstav zapasu:");
 		scanf_s("%s", my_stav, ZNACKA_SIZE);
 		while (getchar() != '\n');
-		my_id=1;
-		//funkce a predat parametry
+
+		printf("\nid zapasu");
+		scanf_s("%d", &my_id);
+		while (getchar() != '\n');
+
+
+		//y_id=0; // prozatimni hodnota
+		
 		//void addzapas(char* tema, char* cas, char* datum, char* misto, char* stav, t_zapasy** uk_prvni)
-		addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep);
+		addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep); //funkce a predat parametry
 
 		break;
 
@@ -61,24 +67,30 @@ void Onadd() // pridavani veci do seznamu
 		char my_liga[ZNACKA_SIZE];
 		char my_tym[ZNACKA_SIZE];
 		char my_kurz[ZNACKA_SIZE];
+		int my_spide;
 
 		printf("\n nazev sportu:");
 		scanf_s("%s", my_sport, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nstav zapasu:");
+		printf("\nliga:");
 		scanf_s("%s", my_liga, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ntema zapasu");
+		printf("\ntym");
 		scanf_s("%s", my_tym, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ntema zapasu");
+		printf("\n kurz");
 		scanf_s("%s", my_kurz, ZNACKA_SIZE);
 		while (getchar() != '\n');
-		//funkce a predat parametry
 
+		printf("\nid sportu");
+		scanf_s("%d", &my_spide);
+		while (getchar() != '\n');
+
+		//my_spid = 0; // nekde ziskat
+		addinfo(my_spide,my_sport,my_liga,my_tym,my_kurz,&first); //funkce a predat parametry
 		break;
 
 	case 'v':
@@ -105,6 +117,29 @@ void editovat()
 void zobrazit()
 {//tisk vsech informaci nebo vybrane informace
 	//spojit info pomoci ID
+
+	
+	//test vypisu seznamu zapasy
+	struct t_zapasy* aktzapas = mojep; // ukazatel na aktualni auto
+	printf("\nzapasy\n");
+	while (aktzapas) // prochazeni seznamu
+	{
+		printf("%d %s %s %s %s %s\n", aktzapas->idzap, aktzapas->tema, aktzapas->cas, aktzapas->datum, aktzapas->misto, aktzapas->stav); // tisk radku
+		aktzapas = aktzapas->next; // posun na dalsi auto
+	}
+	//test vypisu seznamu databaze
+	struct t_databaze* aktinfo = first; // ukazatel na aktualni auto
+	printf("\n databaze\n");
+	while (aktinfo) // prochazeni seznamu
+	{
+		printf(" %s %s %s %s %d\n", aktinfo->sport, aktinfo->liga, aktinfo->tym, aktinfo->kurz, aktinfo->spid); // tisk radku
+		aktinfo = aktinfo->dalsi; // posun na dalsi auto
+	}
+
+	getchar();
+
+
+
 }
 
 
@@ -143,5 +178,9 @@ int main()
 	} while (cmd != 'q');     // koncime az pri Q
 
 	//tady odkaz na zapis vseho do souboru
+
+	
+	//zapis zapasu do souboru struktura pole (idzap, tema, cas, datum, misto, stav)
+	
 	return 0;
 }
