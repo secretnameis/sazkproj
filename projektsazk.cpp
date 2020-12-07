@@ -2,6 +2,10 @@
 #include <ctype.h>    // tolower
 #include <stdlib.h>	 //system
 #include "funkce.h"
+#include <fstream>
+#include <string>
+
+using namespace std;
 
 struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
 struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
@@ -142,11 +146,41 @@ void zobrazit()
 
 }
 
+void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
+{
+	
+	struct t_zapasy* aktzapas = mojep; // ukazatel na aktualni auto
+	//printf("\nUkladani do souboru.\n");
+	while (aktzapas) // prochazeni seznamu
+	{
+		int zapis_idzap = aktzapas->idzap; //
+		char* zapis_tema = aktzapas->tema;
+		char* zapis_cas = aktzapas->cas;
+		char* zapis_datum = aktzapas->datum;
+		char* zapis_misto = aktzapas->misto;
+		char* zapis_stav = aktzapas->stav;
+
+
+		fstream myfile("zapas.txt", ios::out | ios::app); //definice a vytvoreni souboru, nastaveni zapisu
+		if (myfile.is_open()) //podminka, ktera zjisti jestli se soubor spravne vytvoril/otevrel
+		{
+			myfile << zapis_idzap << " ; " << zapis_tema << " ; " << zapis_cas << " ; " << zapis_datum << " ; " << zapis_misto << " ; " << zapis_stav << endl;
+			aktzapas = aktzapas->next; // posun na dalsi auto
+			myfile.close();
+		}
+		else
+			cout << "Soubory se nepodarilo ulozit!";
+		
+	}
+
+	
+}
+
 
 
 int main()
 {
-	char  cmd;
+	char cmd;
 	do
 	{
 		system("cls");		// smaze obrazovku
@@ -178,6 +212,8 @@ int main()
 	} while (cmd != 'q');     // koncime az pri Q
 
 	//tady odkaz na zapis vseho do souboru
+	ulozeni();
+
 
 	
 	//zapis zapasu do souboru struktura pole (idzap, tema, cas, datum, misto, stav)
