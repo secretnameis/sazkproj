@@ -35,5 +35,5 @@ ziskavani id pro zapasy, aby to nekolidovalo po smazání
 zapis do souboru
 cteni ze souboru do pole
 funkce mazat
-
+ 
 */
