@@ -6,7 +6,7 @@
 struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
 struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 
-
+//testc
 
 void Onadd() // pridavani veci do seznamu
 {
@@ -16,7 +16,7 @@ void Onadd() // pridavani veci do seznamu
 	printf("Z: zapas   "); //specialni seznam
 	printf("I: informace   "); // sporty, ligy, tym
 	printf("V: sazky   "); // jeste nemam promysleno
-	printf("Q: main menu\n\n");
+	printf("Q: navrat do menu\n\n");
 	cm = tolower(getchar());
 	while (getchar() != '\n');
 
@@ -30,27 +30,27 @@ void Onadd() // pridavani veci do seznamu
 		char my_stav[ZNACKA_SIZE];
 		int my_id;
 		//zapas id se ziska automaticky
-		printf("\ntema zapasu:"); 
+		printf("\ntema zapasu: "); 
 		scanf_s("%s", my_tema, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ncas zapasu:");
+		printf("\ncas zapasu: ");
 		scanf_s("%s", my_cas, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ndatum zapasu:");
+		printf("\ndatum zapasu: ");
 		scanf_s("%s", my_datum, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nmisto zapasu:");
+		printf("\nmisto zapasu: ");
 		scanf_s("%s", my_misto, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nstav zapasu:");
+		printf("\nstav zapasu: ");
 		scanf_s("%s", my_stav, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nid zapasu");
+		printf("\nid zapasu: ");
 		scanf_s("%d", &my_id);
 		while (getchar() != '\n');
 
@@ -69,23 +69,23 @@ void Onadd() // pridavani veci do seznamu
 		char my_kurz[ZNACKA_SIZE];
 		int my_spide;
 
-		printf("\n nazev sportu:");
+		printf("\n nazev sportu: ");
 		scanf_s("%s", my_sport, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nliga:");
+		printf("\nliga: ");
 		scanf_s("%s", my_liga, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ntym");
+		printf("\ntym: ");
 		scanf_s("%s", my_tym, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\n kurz");
+		printf("\n kurz: ");
 		scanf_s("%s", my_kurz, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\nid sportu");
+		printf("\nid sportu: ");
 		scanf_s("%d", &my_spide);
 		while (getchar() != '\n');
 
@@ -108,6 +108,30 @@ void Onadd() // pridavani veci do seznamu
 void Ondel()
 {//mazani, pridat vyber co mazat; ochrana pred smazanim sportu pokud ma registrovan zapas
 	//mazani podle sportid, zapas id
+
+	char  cmq;
+	system("cls");
+	printf("co chces smazat:\n");
+	printf("Z: zapas    "); 
+	printf("I: informace   "); // sporty, ligy, tym
+	printf("V: sazky   "); 
+	printf("Q: navrat do menu\n\n");
+	cmq = tolower(getchar());
+	while (getchar() != '\n');
+
+	switch (cmq)
+	{
+	case 'z':
+		//OnAdd();					// volame pridani
+		break;
+	case 'i':
+	//	OnDel();					// volame mazani
+		break;
+	case 'v':
+	//	ShowCars();
+		break;
+	}
+
 }
 
 void editovat()
@@ -150,11 +174,12 @@ int main()
 	do
 	{
 		system("cls");		// smaze obrazovku
+		printf("Hlavni menu\n");
 		printf("A: Pridat    ");
 		printf("D: Smazat    ");
 		printf("E: Editovat  ");
 		printf("P: Tisk     ");
-		printf("Q: Konec\n\n");
+		printf("Q: ukoncit\n\n");
 
 		cmd = tolower(getchar());
 		while (getchar() != '\n');
