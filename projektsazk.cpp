@@ -4,6 +4,7 @@
 #include "funkce.h"
 #include <fstream>
 #include <string>
+#include <thread>
 
 using namespace std;
 
@@ -363,10 +364,41 @@ void zobrazit()
 
 			break;
 
-		case 'v':
-			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+		case 'v' | 'V': // zobrazeni vysledku kdo vyhral, funguje momentalne jen na prvni zapas
+
+			while (aktzap)
+			{
+				int skore_tymA = aktzap->zapas_skoreA;
+				int skore_tymB = aktzap->zapas_skoreB;
+				if (skore_tymA > skore_tymB) 
+				{
+					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi; //nedokazu urcit, kde to spravne dat aby to preslo na dalsi zapas, nutno spravne zaradit
+					break;
+				}
+				if (skore_tymA < skore_tymB)
+				{
+					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				if (skore_tymA == skore_tymB)
+				{
+					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				else
+					cout << "Chyba.";
+			}
 			break;
-		}	
+			getchar();
+			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+
+		}		
 }
 
 
