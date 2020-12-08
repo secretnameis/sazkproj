@@ -303,6 +303,7 @@ void zobrazit()
 		printf("L: liga  ");
 		printf("T: tym   ");
 		printf("Z: zapas ");
+		printf("V: kdo vyhral");
 		printf("Q: zpet do menu\n\n");
 
 		sh = tolower(getchar());
@@ -362,6 +363,9 @@ void zobrazit()
 
 			break;
 
+		case 'v':
+			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+			break;
 		}	
 }
 
