@@ -7,103 +7,186 @@
 
 using namespace std;
 
-struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
-struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
+//struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
+//struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
+struct sport* sprvni = NULL; // globalni ukazatel na prvni sport
+struct liga* lprvni = NULL; // globalni ukazatel na prvni ligu
+struct tym* tprvni = NULL; // globalni ukazatel na prvni auto
+struct zapas* zprvni = NULL; // globalni ukazatel na prvni auto
 
-//test   zmnea merge
-//dasdasdsa
+char* sportp(int a) {//vypis podlwe id
+	int test;
+	struct sport* akts = sprvni;
+	while (akts)
+	{
+		test = akts->sport_id;
+		if (test == a)
+		{
+			//printf("%d %s", akts->sport_id, akts->sport_nazev);
+			char* vrat = akts->sport_nazev;
+			return vrat;
+		}
+		else
+		{
+			akts = akts->sport_dalsi;
+		}
+	}
+}
+
+char* ligap(int a) {//vypis podle id
+	int test;
+	struct liga* aktl = lprvni;
+	while (aktl)
+	{
+		test = aktl->liga_id;
+		if (test == a)
+		{
+			char* vrat = aktl->liga_nazev;
+			return vrat;
+		}
+		else
+		{
+			aktl = aktl->liga_dalsi;
+		}
+	}
+}
 
 void Onadd() // pridavani veci do seznamu
 {
 	char  cm;
 	system("cls");
 	printf("co chces pridat:\n");
-	printf("Z: zapas   "); //specialni seznam
-	printf("I: informace   "); // sporty, ligy, tym
-	printf("V: sazky   "); // jeste nemam promysleno
+	printf("S: sport  ");
+	printf("L: liga  ");
+	printf("T: tym   ");
+	printf("Z: zapas "); 
 	printf("Q: navrat do menu\n\n");
 	cm = tolower(getchar());
 	while (getchar() != '\n');
 
 	switch (cm)
 	{
-	case 'z': //zapas + informace  cas,datum,misto, stav (pro hodnoceni vyher)
-		char my_tema[ZNACKA_SIZE];
-		char my_cas[ZNACKA_SIZE];
-		char my_datum[ZNACKA_SIZE];
-		char my_misto[ZNACKA_SIZE];
-		char my_stav[ZNACKA_SIZE];
-		int my_id;
-		//zapas id se ziska automaticky
-		printf("\ntema zapasu: "); 
-		scanf_s("%s", my_tema, ZNACKA_SIZE);
+	case 's': 
+		int sid;
+		char snazev[ZNACKA_SIZE];
+		
+		//funkce na ziskani posledniho id
+		printf("\nid sportu: ");
+		scanf_s("%d", &sid);
 		while (getchar() != '\n');
 
-		printf("\ncas zapasu: ");
-		scanf_s("%s", my_cas, ZNACKA_SIZE);
+		
+		printf("\nnazev sportu: "); 
+		scanf_s("%s", snazev, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ndatum zapasu: ");
-		scanf_s("%s", my_datum, ZNACKA_SIZE);
-		while (getchar() != '\n');
-
-		printf("\nmisto zapasu: ");
-		scanf_s("%s", my_misto, ZNACKA_SIZE);
-		while (getchar() != '\n');
-
-		printf("\nstav zapasu: ");
-		scanf_s("%s", my_stav, ZNACKA_SIZE);
-		while (getchar() != '\n');
-
-		printf("\nid zapasu: ");
-		scanf_s("%d", &my_id);
-		while (getchar() != '\n');
-
-
-		//y_id=0; // prozatimni hodnota
+		addsport(sid, snazev, &sprvni);
 		
 		//void addzapas(char* tema, char* cas, char* datum, char* misto, char* stav, t_zapasy** uk_prvni)
-		addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep); //funkce a predat parametry
+		//addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep); //funkce a predat parametry
 
 		break;
 
-	case 'i': //sport tymy,ligy, kurz					
-		char my_sport[ZNACKA_SIZE];
-		char my_liga[ZNACKA_SIZE];
-		char my_tym[ZNACKA_SIZE];
-		char my_kurz[ZNACKA_SIZE];
-		int my_spide;
+	case 'l': //sport tymy,ligy, kurz					
+		int liga_id;
+		char liga_nazev[ZNACKA_SIZE];
 
-		printf("\n nazev sportu: ");
-		scanf_s("%s", my_sport, ZNACKA_SIZE);
+		//funkce na ziskani posledniho id
+		printf("\nid ligy: ");
+		scanf_s("%d", &liga_id);
 		while (getchar() != '\n');
 
-		printf("\nliga: ");
-		scanf_s("%s", my_liga, ZNACKA_SIZE);
+
+		printf("\nnazev ligy: ");
+		scanf_s("%s", liga_nazev, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
-		printf("\ntym: ");
-		scanf_s("%s", my_tym, ZNACKA_SIZE);
+		addliga(liga_id, liga_nazev, &lprvni);
+
+		break;
+
+	case 't':
+		int tym_id;
+		char tym_nazev[ZNACKA_SIZE];
+		int tym_sport;
+		int tym_liga;
+		
+		//funkce na ziskani posledniho id
+		printf("\nid tymu: ");
+		scanf_s("%d", &tym_id);
 		while (getchar() != '\n');
 
-		printf("\n kurz: ");
-		scanf_s("%s", my_kurz, ZNACKA_SIZE);
+		printf("\nnazev tymu: ");
+		scanf_s("%s", tym_nazev, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
 		printf("\nid sportu: ");
-		scanf_s("%d", &my_spide);
+		scanf_s("%d", &tym_sport);
 		while (getchar() != '\n');
 
-		//my_spid = 0; // nekde ziskat
-		addinfo(my_spide,my_sport,my_liga,my_tym,my_kurz,&first); //funkce a predat parametry
+		printf("\nid liga: ");
+		scanf_s("%d", &tym_liga);
+		while (getchar() != '\n');
+
+		addtym(tym_id, tym_nazev, tym_sport, tym_liga, &tprvni);
+
 		break;
 
-	case 'v':
-		//moznosti sazky
-		//treba vzit vysledky zapasu a podle kurzu vypocitat cenu vyhry  WIP
+	case 'z':
+		int  zapas_id; //id zapasu
+		int zapas_sport;
+		int zapas_liga;
+		char zapas_datum[ZNACKA_SIZE];
+		char zapas_misto[ZNACKA_SIZE];
+		int zapas_tymA;
+		int zapas_tymB;
+		int zapas_skoreA;
+		int zapas_skoreB;
+		char zapas_sazka[ZNACKA_SIZE];
+
+		printf("\nid zapasu: ");
+		scanf_s("%d", &zapas_id);
+		while (getchar() != '\n');
+
+		printf("\nid sportu: ");
+		scanf_s("%d", &zapas_sport);
+		while (getchar() != '\n');
+
+		printf("\nid liga: ");
+		scanf_s("%d", &zapas_liga);
+		while (getchar() != '\n');
+
+		printf("\ndatum zapasu: ");
+		scanf_s("%s", zapas_datum, ZNACKA_SIZE);
+		while (getchar() != '\n');
+
+		printf("\nmisto zapasu: ");
+		scanf_s("%s", zapas_misto, ZNACKA_SIZE);
+		while (getchar() != '\n');
+
+		printf("\nid tymA: ");
+		scanf_s("%d", &zapas_tymA);
+		while (getchar() != '\n');
+
+		printf("\nid tymB: ");
+		scanf_s("%d", &zapas_tymB);
+		while (getchar() != '\n');
+
+		printf("\n skore A: ");
+		scanf_s("%d", &zapas_skoreA);
+		while (getchar() != '\n');
+
+		printf("\nskore B: ");
+		scanf_s("%d", &zapas_skoreB);
+		while (getchar() != '\n');
+
+		printf("\nsazka: ");
+		scanf_s("%s", zapas_sazka, ZNACKA_SIZE);
+		while (getchar() != '\n');
+
+		addzapas(zapas_id,zapas_sport,zapas_liga,zapas_datum,zapas_misto,zapas_tymA,zapas_tymB,zapas_skoreA,zapas_skoreB,zapas_sazka,&zprvni);
 		break;
 
-	
 	} 
     
 
@@ -144,35 +227,89 @@ void editovat()
 }
 
 void zobrazit()
-{//tisk vsech informaci nebo vybrane informace
-	//spojit info pomoci ID
+{
+	struct sport* aktsport = sprvni; // ukazatel na aktualni auto
+	struct liga* aktliga = lprvni;
+	struct tym* akttym = tprvni;
+	struct zapas* aktzapas = zprvni;
 
-	
-	//test vypisu seznamu zapasy
-	struct t_zapasy* aktzapas = mojep; // ukazatel na aktualni auto
-	printf("\nzapasy\n");
-	while (aktzapas) // prochazeni seznamu
-	{
-		printf("%d %s %s %s %s %s\n", aktzapas->idzap, aktzapas->tema, aktzapas->cas, aktzapas->datum, aktzapas->misto, aktzapas->stav); // tisk radku
-		aktzapas = aktzapas->next; // posun na dalsi auto
-	}
-	//test vypisu seznamu databaze
-	struct t_databaze* aktinfo = first; // ukazatel na aktualni auto
-	printf("\n databaze\n");
-	while (aktinfo) // prochazeni seznamu
-	{
-		printf(" %s %s %s %s %d\n", aktinfo->sport, aktinfo->liga, aktinfo->tym, aktinfo->kurz, aktinfo->spid); // tisk radku
-		aktinfo = aktinfo->dalsi; // posun na dalsi auto
-	}
+	char sh;
+		system("cls");		// smaze obrazovku
+		printf("co chces tisknout\n");
+		printf("S: sport ");
+		printf("L: liga  ");
+		printf("T: tym   ");
+		printf("Z: zapas ");
+		printf("A: test  ");
+		printf("Q: zpet do menu\n\n");
 
-	getchar();
+		sh = tolower(getchar());
+		while (getchar() != '\n');
+
+		switch (sh)
+		{
+		case 's':
+			printf("\n\n");
+			while (aktsport) // prochazeni seznamu
+			{
+				printf("%d %s\n", aktsport->sport_id, aktsport->sport_nazev); // tisk radku
+				aktsport = aktsport->sport_dalsi; // posun na dalsi auto
+			}
+			getchar();
+
+			break;
+
+		case 'l':
+			printf("\n\n");
+			while (aktliga) // prochazeni seznamu
+			{
+				printf("%d %s\n", aktliga->liga_id, aktliga->liga_nazev); // tisk radku
+				aktliga = aktliga->liga_dalsi; // posun na dalsi auto
+			}
+			getchar();
 
 
+			break;
+		case 't': //tisk tym s externim id
+			printf("\n\n");
+			while (akttym) // prochazeni seznamu
+			{
+				int u,o;
+				u= akttym->tym_sport;
+				o = akttym->tym_liga;
+				printf("%d %s %s\n", akttym->tym_id, akttym->tym_nazev, sportp(u),ligap(o)); // tisk radku
+				akttym = akttym->tym_dalsi; // posun na dalsi auto
+			}
+			getchar();
 
+
+			break;
+		case 'z':
+
+			break;
+
+		case 'a':
+			//test
+			/*
+			printf("\n\n");
+			printf("\n\n");
+			while (aktsport) // prochazeni seznamu
+			{
+				printf("sport,liga %d %s %d %s\n", aktsport->sport_id, aktsport->sport_nazev, aktliga->liga_id, aktliga->liga_nazev); // tisk radku
+				printf("tym,zapas %d %s %d %s\n", akttym->tym_id, akttym->tym_nazev, aktzapas->zapas_id, aktzapas->zapas_datum);
+				aktsport = aktsport->sport_dalsi; // posun na dalsi auto
+				aktliga = aktliga->liga_dalsi;
+				akttym = akttym->tym_dalsi;
+				aktzapas = aktzapas->zapas_dalsi;
+			}
+			getchar();*/
+			break;
+		}	
 }
 
+
 void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
-{
+{/*
 	
 	struct t_zapasy* aktzapas = mojep; // ukazatel na aktualni auto
 	//printf("\nUkladani do souboru.\n");
@@ -198,7 +335,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		
 	}
 
-	
+	*/
 }
 
 
@@ -238,7 +375,7 @@ int main()
 	} while (cmd != 'q');     // koncime az pri Q
 
 	//tady odkaz na zapis vseho do souboru
-	ulozeni();
+	//ulozeni();
 
 
 	
