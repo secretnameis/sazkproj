@@ -3,17 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 //struct t_zapasy* ukazatel = NULL;
 
 void addsport(int sport_id, char* sport_nazev, sport** sport_prvni)
 {
 	struct sport* novysport;
 	struct sport* aktsport;
-
+	
 	// alokace dynamicke promenne
 	novysport = (struct sport*)malloc(sizeof(struct sport));
 
 	novysport->sport_id = sport_id;
+	//novysport->sport_id = max_sport_ID();
 	strcpy_s(novysport->sport_nazev, 30, sport_nazev); // naplneni struktury
 	novysport->sport_dalsi = NULL;
 
