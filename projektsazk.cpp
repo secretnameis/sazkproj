@@ -14,6 +14,70 @@ struct liga* lprvni = NULL; // globalni ukazatel na prvni ligu
 struct tym* tprvni = NULL; // globalni ukazatel na prvni auto
 struct zapas* zprvni = NULL; // globalni ukazatel na prvni auto
 
+// funkce pro malezeni max ID v seznamu
+int max_sport_ID() {
+
+	struct sport* akts = sprvni;
+	int max = 0;
+	while (akts)
+	{
+		if (akts->sport_id > max) {
+			
+			max = akts->sport_id;
+		}
+		akts = akts->sport_dalsi;
+	}
+	return max+1;
+}
+
+int max_liga_ID() {
+
+	struct liga* aktl = lprvni;
+	int max = 0;
+	while (aktl)
+	{
+		if (aktl->liga_id > max) {
+
+			max = aktl->liga_id;
+		}
+		aktl = aktl->liga_dalsi;
+	}
+	return max + 1;
+}
+
+int max_tym_ID() {
+
+	struct tym* aktt = tprvni;
+	int max = 0;
+	while (aktt)
+	{
+		if (aktt->tym_id > max) {
+
+			max = aktt->tym_id;
+		}
+		aktt = aktt->tym_dalsi;
+	}
+	return max + 1;
+}
+
+int max_zapas_ID() {
+
+	struct zapas* aktz = zprvni;
+	int max = 0;
+	while (aktz)
+	{
+		if (aktz->zapas_id > max) {
+
+			max = aktz->zapas_id;
+		}
+		aktz = aktz->zapas_dalsi;
+	}
+	return max + 1;
+}
+
+
+
+
 char* sportp(int a) {//vypis podlwe id
 	int test;
 	struct sport* akts = sprvni;
@@ -51,6 +115,24 @@ char* ligap(int a) {//vypis podle id
 	}
 }
 
+char* tymp(int a) {
+	int test;
+	struct tym* aktt = tprvni;
+	while (aktt)
+	{
+		test = aktt->tym_id;
+		if (test == a)
+		{
+			char* vrat = aktt->tym_nazev;
+			return vrat;
+		}
+		else
+		{
+			aktt = aktt->tym_dalsi;
+		}
+	}
+}
+
 void Onadd() // pridavani veci do seznamu
 {
 	char  cm;
@@ -70,32 +152,21 @@ void Onadd() // pridavani veci do seznamu
 		int sid;
 		char snazev[ZNACKA_SIZE];
 		
-		//funkce na ziskani posledniho id
-		printf("\nid sportu: ");
-		scanf_s("%d", &sid);
-		while (getchar() != '\n');
+		sid=max_sport_ID();
 
-		
 		printf("\nnazev sportu: "); 
 		scanf_s("%s", snazev, ZNACKA_SIZE);
 		while (getchar() != '\n');
 
 		addsport(sid, snazev, &sprvni);
 		
-		//void addzapas(char* tema, char* cas, char* datum, char* misto, char* stav, t_zapasy** uk_prvni)
-		//addzapas(my_id,my_tema,my_cas,my_datum,my_misto,my_stav,&mojep); //funkce a predat parametry
-
 		break;
 
 	case 'l': //sport tymy,ligy, kurz					
 		int liga_id;
 		char liga_nazev[ZNACKA_SIZE];
-
-		//funkce na ziskani posledniho id
-		printf("\nid ligy: ");
-		scanf_s("%d", &liga_id);
-		while (getchar() != '\n');
-
+		
+		liga_id = max_liga_ID();//funkce na ziskani posledniho id
 
 		printf("\nnazev ligy: ");
 		scanf_s("%s", liga_nazev, ZNACKA_SIZE);
@@ -111,10 +182,7 @@ void Onadd() // pridavani veci do seznamu
 		int tym_sport;
 		int tym_liga;
 		
-		//funkce na ziskani posledniho id
-		printf("\nid tymu: ");
-		scanf_s("%d", &tym_id);
-		while (getchar() != '\n');
+		tym_id = max_tym_ID();//funkce na ziskani posledniho id
 
 		printf("\nnazev tymu: ");
 		scanf_s("%s", tym_nazev, ZNACKA_SIZE);
@@ -144,9 +212,7 @@ void Onadd() // pridavani veci do seznamu
 		int zapas_skoreB;
 		char zapas_sazka[ZNACKA_SIZE];
 
-		printf("\nid zapasu: ");
-		scanf_s("%d", &zapas_id);
-		while (getchar() != '\n');
+		zapas_id = max_zapas_ID();
 
 		printf("\nid sportu: ");
 		scanf_s("%d", &zapas_sport);
@@ -188,9 +254,6 @@ void Onadd() // pridavani veci do seznamu
 		break;
 
 	} 
-    
-
-
 }
 
 void Ondel()
@@ -231,7 +294,7 @@ void zobrazit()
 	struct sport* aktsport = sprvni; // ukazatel na aktualni auto
 	struct liga* aktliga = lprvni;
 	struct tym* akttym = tprvni;
-	struct zapas* aktzapas = zprvni;
+	struct zapas* aktzap = zprvni;
 
 	char sh;
 		system("cls");		// smaze obrazovku
@@ -240,7 +303,6 @@ void zobrazit()
 		printf("L: liga  ");
 		printf("T: tym   ");
 		printf("Z: zapas ");
-		printf("A: test  ");
 		printf("Q: zpet do menu\n\n");
 
 		sh = tolower(getchar());
@@ -285,25 +347,21 @@ void zobrazit()
 
 			break;
 		case 'z':
-
-			break;
-
-		case 'a':
-			//test
-			/*
 			printf("\n\n");
-			printf("\n\n");
-			while (aktsport) // prochazeni seznamu
+			while (aktzap) // prochazeni seznamu
 			{
-				printf("sport,liga %d %s %d %s\n", aktsport->sport_id, aktsport->sport_nazev, aktliga->liga_id, aktliga->liga_nazev); // tisk radku
-				printf("tym,zapas %d %s %d %s\n", akttym->tym_id, akttym->tym_nazev, aktzapas->zapas_id, aktzapas->zapas_datum);
-				aktsport = aktsport->sport_dalsi; // posun na dalsi auto
-				aktliga = aktliga->liga_dalsi;
-				akttym = akttym->tym_dalsi;
-				aktzapas = aktzapas->zapas_dalsi;
+				int u, o,a,b;
+				u = aktzap->zapas_sport;
+				o = aktzap->zapas_liga;
+				a = aktzap->zapas_tymA;
+				b = aktzap->zapas_tymB;
+				printf("%d %s %s %s %s %s %s %d %d %s\n", aktzap->zapas_id, sportp(u), ligap(o), aktzap->zapas_datum, aktzap->zapas_misto, tymp(a), tymp(b), aktzap->zapas_skoreA, aktzap->zapas_skoreB, aktzap->zapas_sazka); // tisk radku
+				aktzap = aktzap->zapas_dalsi;
 			}
-			getchar();*/
+			getchar();
+
 			break;
+
 		}	
 }
 
@@ -389,7 +447,48 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 			cout << "Zapas se nepodarilo ulozit.";
 	}
 }
+void testdata() {
+	//sporty
+	int sid = 0;
+	char snazev[ZNACKA_SIZE] = "hokej";
+	char snazev2[ZNACKA_SIZE] = "lyze";
+	char snazev3[ZNACKA_SIZE] = "basket";
+	addsport(max_sport_ID(),snazev, &sprvni);
+	addsport(max_sport_ID(),snazev2, &sprvni);
+	addsport(max_sport_ID(), snazev3, &sprvni);
 
+	//liga
+	int liga_id;
+	char liga_nazev[ZNACKA_SIZE]="prvniL", liga_nazev1[ZNACKA_SIZE] = "druhaL", liga_nazev2[ZNACKA_SIZE] = "tretiL";
+	addliga(max_liga_ID(), liga_nazev, &lprvni);
+	addliga(max_liga_ID(), liga_nazev1, &lprvni);
+	addliga(max_liga_ID(), liga_nazev2, &lprvni);
+
+
+	//tym
+	int tym_id;
+	char tym_nazev[ZNACKA_SIZE]="tymA", tym_nazev1[ZNACKA_SIZE] = "tymB", tym_nazev2[ZNACKA_SIZE] = "tymC";
+	int tym_sport=1, tym_sport2 = 2, tym_sport1 = 3;
+	int tym_liga=1, tym_liga2=2,tym_liga1=1; //max_tym_ID()
+	addtym(max_tym_ID(), tym_nazev, tym_sport, tym_liga, &tprvni);
+	addtym(max_tym_ID(), tym_nazev1, tym_sport1, tym_liga1, &tprvni);
+	addtym(max_tym_ID(), tym_nazev2, tym_sport2, tym_liga2, &tprvni);
+	
+	//zapas
+	int  zapas_id; //id zapasu
+	int zapas_sport=1, zapas_sport1 = 3, zapas_sport2 = 2;
+	int zapas_liga=3, zapas_liga1 = 2, zapas_liga2 =1;
+	char zapas_datum[ZNACKA_SIZE]="23.11.2020", zapas_datum1[ZNACKA_SIZE] = "3.12.2020", zapas_datum2[ZNACKA_SIZE] = "2.1.2020";
+	char zapas_misto[ZNACKA_SIZE]="Brno", zapas_misto1[ZNACKA_SIZE] = "Praha", zapas_misto2[ZNACKA_SIZE] = "Ostrava";
+	int zapas_tymA = 1, zapas_tymA1 = 2, zapas_tymA2 = 1;
+	int zapas_tymB = 3, zapas_tymB1 = 1, zapas_tymB2 = 2;
+	int zapas_skoreA=10, zapas_skoreA1 = 20, zapas_skoreA2 = 30;
+	int zapas_skoreB=5, zapas_skoreB1 = 40, zapas_skoreB2 = 50;
+	char zapas_sazka[ZNACKA_SIZE]="sazka1", zapas_sazka1[ZNACKA_SIZE] = "sazka2", zapas_sazka2[ZNACKA_SIZE] = "sazka3";
+	addzapas(max_zapas_ID(), zapas_sport, zapas_liga, zapas_datum, zapas_misto, zapas_tymA, zapas_tymB, zapas_skoreA, zapas_skoreB, zapas_sazka, &zprvni);
+	addzapas(max_zapas_ID(), zapas_sport1, zapas_liga1, zapas_datum1, zapas_misto1, zapas_tymA1, zapas_tymB1, zapas_skoreA1, zapas_skoreB1, zapas_sazka1, &zprvni);
+	addzapas(max_zapas_ID(), zapas_sport2, zapas_liga2, zapas_datum2, zapas_misto2, zapas_tymA2, zapas_tymB2, zapas_skoreA2, zapas_skoreB2, zapas_sazka2, &zprvni);
+	}
 
 
 int main()
@@ -402,8 +501,10 @@ int main()
 		printf("A: Pridat    ");
 		printf("D: Smazat    ");
 		printf("E: Editovat  ");
-		printf("P: Tisk     ");
+		printf("P: Tisk      ");
+		printf("N: test data ");
 		printf("Q: ukoncit\n\n");
+		
 
 		cmd = tolower(getchar());
 		while (getchar() != '\n');
@@ -423,15 +524,17 @@ int main()
 		case 'p':
 			zobrazit();
 			break;
+
+		case 'n':
+			testdata();
+			break;
 		}
 	} while (cmd != 'q');     // koncime az pri Q
+
 
 	//tady odkaz na zapis vseho do souboru
 	ulozeni();
 
 
-	
-	//zapis zapasu do souboru struktura pole (idzap, tema, cas, datum, misto, stav)
-	
 	return 0;
 }
