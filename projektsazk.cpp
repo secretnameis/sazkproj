@@ -344,7 +344,7 @@ void zobrazit()
 			}
 			getchar();
 
-
+			 
 			break;
 		case 'z':
 			printf("\n\n");
