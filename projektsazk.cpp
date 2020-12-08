@@ -309,33 +309,85 @@ void zobrazit()
 
 
 void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
-{/*
-	
-	struct t_zapasy* aktzapas = mojep; // ukazatel na aktualni auto
-	//printf("\nUkladani do souboru.\n");
-	while (aktzapas) // prochazeni seznamu
+{
+	struct sport* aktsport = sprvni; //ulozeni sportu
+	while (aktsport)
 	{
-		int zapis_idzap = aktzapas->idzap; //
-		char* zapis_tema = aktzapas->tema;
-		char* zapis_cas = aktzapas->cas;
-		char* zapis_datum = aktzapas->datum;
-		char* zapis_misto = aktzapas->misto;
-		char* zapis_stav = aktzapas->stav;
+		int zapis_sport_id = aktsport->sport_id;
+		char* zapis_sport_nazev = aktsport->sport_nazev;
 
-
-		fstream myfile("zapas.txt", ios::out | ios::app); //definice a vytvoreni souboru, nastaveni zapisu
-		if (myfile.is_open()) //podminka, ktera zjisti jestli se soubor spravne vytvoril/otevrel
+		fstream zapsport("sport.txt", ios::out | ios::app);
+		if (zapsport.is_open())
 		{
-			myfile << zapis_idzap << " ; " << zapis_tema << " ; " << zapis_cas << " ; " << zapis_datum << " ; " << zapis_misto << " ; " << zapis_stav << endl;
-			aktzapas = aktzapas->next; // posun na dalsi auto
-			myfile.close();
+			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << endl;
+			aktsport = aktsport->sport_dalsi;
+			zapsport.close();
+
 		}
 		else
-			cout << "Soubory se nepodarilo ulozit!";
-		
+			cout << "Sport se nepodarilo ulozit.";
 	}
 
-	*/
+	struct liga* aktliga = lprvni; //ulozeni ligy
+	while (aktliga)
+	{
+		int zapis_liga_id = aktliga->liga_id;
+		char* zapis_liga_nazev = aktliga->liga_nazev;
+
+		fstream zapliga("liga.txt", ios::out | ios::app);
+		if (zapliga.is_open())
+		{
+			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << endl;
+			aktliga = aktliga->liga_dalsi;
+			zapliga.close();
+		}
+		else
+			cout << "Ligu se nepodarilo ulozit.";
+	}
+
+	struct tym* akttym = tprvni;  //ulozeni tymu
+	while (akttym)
+	{
+		int zapis_tym_id = akttym->tym_id;
+		char* zapis_tym_nazev = akttym->tym_nazev;
+		int zapis_tym_sport = akttym->tym_sport;
+		int zapis_tym_liga = akttym->tym_liga;
+		
+		fstream zaptym("tym.txt", ios::out | ios::app);
+		if (zaptym.is_open())
+		{
+			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << endl;
+			akttym = akttym->tym_dalsi;
+			zaptym.close();
+		}
+		else
+			cout << "Tym se nepodarilo ulozit.";
+	}
+
+	struct zapas* aktzapas = zprvni; //ulozeni zapasu
+	while (aktzapas)
+	{
+		int zapis_zapas_id = aktzapas->zapas_id;
+		int zapis_zapas_sport = aktzapas->zapas_sport;
+		int zapis_zapas_liga = aktzapas->zapas_liga;
+		char* zapis_zapas_datum = aktzapas->zapas_datum;
+		char* zapis_zapas_misto = aktzapas->zapas_misto;
+		int zapis_zapas_tymA = aktzapas->zapas_tymA;
+		int zapis_zapas_tymB = aktzapas->zapas_tymB;
+		int zapis_zapas_skoreA = aktzapas->zapas_skoreA;
+		int zapis_zapas_skoreB = aktzapas->zapas_skoreB;
+		char* zapis_zapas_sazka = aktzapas->zapas_sazka;
+
+		fstream zapzapas("zapas.txt", ios::out | ios::app);
+		if (zapzapas.is_open())
+		{
+			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << endl;
+			aktzapas = aktzapas->zapas_dalsi;
+			zapzapas.close();
+		}
+		else
+			cout << "Zapas se nepodarilo ulozit.";
+	}
 }
 
 
@@ -375,7 +427,7 @@ int main()
 	} while (cmd != 'q');     // koncime az pri Q
 
 	//tady odkaz na zapis vseho do souboru
-	//ulozeni();
+	ulozeni();
 
 
 	
