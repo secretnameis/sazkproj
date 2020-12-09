@@ -370,9 +370,12 @@ void zobrazit()
 			{
 				int skore_tymA = aktzap->zapas_skoreA;
 				int skore_tymB = aktzap->zapas_skoreB;
+				char* sazka = aktzap->zapas_sazka;
+
 				if (skore_tymA > skore_tymB) 
 				{
 					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
 					getchar();
 					aktzap = aktzap->zapas_dalsi; //nedokazu urcit, kde to spravne dat aby to preslo na dalsi zapas, nutno spravne zaradit
 					break;
@@ -380,6 +383,7 @@ void zobrazit()
 				if (skore_tymA < skore_tymB)
 				{
 					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
 					getchar();
 					aktzap = aktzap->zapas_dalsi;
 					break;
@@ -387,6 +391,7 @@ void zobrazit()
 				if (skore_tymA == skore_tymB)
 				{
 					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
 					getchar();
 					aktzap = aktzap->zapas_dalsi;
 					break;
@@ -413,7 +418,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapsport("sport.txt", ios::out | ios::app);
 		if (zapsport.is_open())
 		{
-			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << endl;
+			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << ";" << endl;
 			aktsport = aktsport->sport_dalsi;
 			zapsport.close();
 
@@ -431,7 +436,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapliga("liga.txt", ios::out | ios::app);
 		if (zapliga.is_open())
 		{
-			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << endl;
+			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << ";" <<  endl;
 			aktliga = aktliga->liga_dalsi;
 			zapliga.close();
 		}
@@ -450,7 +455,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zaptym("tym.txt", ios::out | ios::app);
 		if (zaptym.is_open())
 		{
-			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << endl;
+			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << ";" << endl;
 			akttym = akttym->tym_dalsi;
 			zaptym.close();
 		}
@@ -475,7 +480,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapzapas("zapas.txt", ios::out | ios::app);
 		if (zapzapas.is_open())
 		{
-			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << endl;
+			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << ";"  << endl;
 			aktzapas = aktzapas->zapas_dalsi;
 			zapzapas.close();
 		}
