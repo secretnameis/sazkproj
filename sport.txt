@@ -1,6 +1,3 @@
-1;hokej
-2;lyze
-3;basket
-1;hokej
-2;lyze
-3;basket
+1;hokej;
+2;lyze;
+3;basket;

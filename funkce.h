@@ -42,3 +42,8 @@ void addsport(int sport_id, char* sport_nazev, struct sport** sport_prvni);
 void addliga(int liga_id, char* liga_nazev, struct liga** liga_prvni);
 void addtym(int tym_id,char* tym_nazev,int tym_sport,int tym_liga, struct tym** tym_prvni);
 void addzapas(int zapas_id, int zapas_sport, int zapas_liga, char* zapas_datum, char* zapas_misto, int zapas_tymA, int zapas_tymB, int zapas_skoreA, int zapas_skoreB, char* zapas_sazka, struct zapas** zapas_prvni);
+
+void delsport(int sport_id, struct sport** sprvni);
+void delliga(int lid, liga** lprvni);
+void deltym(int tym_id, tym** tprvni);
+void delzapas(int zapas_id, zapas** zprvni);
