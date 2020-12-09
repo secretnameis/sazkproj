@@ -47,4 +47,3 @@ void delsport(int sport_id, struct sport** sprvni);
 void delliga(int lid, liga** lprvni);
 void deltym(int tym_id, tym** tprvni);
 void delzapas(int zapas_id, zapas** zprvni);
-void nacist_sport();

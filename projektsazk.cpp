@@ -429,6 +429,10 @@ void zobrazit()
 
 void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 {
+	remove("sport.txt");
+	remove("liga.txt");
+	remove("tym.txt");
+	remove("zapas.txt");
 	struct sport* aktsport = sprvni; //ulozeni sportu
 	while (aktsport)
 	{
@@ -438,7 +442,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapsport("sport.txt", ios::out | ios::app);
 		if (zapsport.is_open())
 		{
-			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << endl;
+			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << ";" << endl;
 			aktsport = aktsport->sport_dalsi;
 			zapsport.close();
 
@@ -456,7 +460,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapliga("liga.txt", ios::out | ios::app);
 		if (zapliga.is_open())
 		{
-			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << endl;
+			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << ";" << endl;
 			aktliga = aktliga->liga_dalsi;
 			zapliga.close();
 		}
@@ -475,7 +479,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zaptym("tym.txt", ios::out | ios::app);
 		if (zaptym.is_open())
 		{
-			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << endl;
+			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << ";" << endl;
 			akttym = akttym->tym_dalsi;
 			zaptym.close();
 		}
@@ -500,7 +504,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapzapas("zapas.txt", ios::out | ios::app);
 		if (zapzapas.is_open())
 		{
-			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << endl;
+			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << ";" << endl;
 			aktzapas = aktzapas->zapas_dalsi;
 			zapzapas.close();
 		}
@@ -551,12 +555,101 @@ void testdata() {
 	addzapas(max_zapas_ID(), zapas_sport2, zapas_liga2, zapas_datum2, zapas_misto2, zapas_tymA2, zapas_tymB2, zapas_skoreA2, zapas_skoreB2, zapas_sazka2, &zprvni);
 	}
 
+//nacitani ze souboru
+void nacist_sport() {
+	FILE* ss;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+
+	int lokal_id;
+	//char lokal_popis;
+
+	//int i;			// posun po polozkach
+
+	ss = fopen("sport.txt", "r");
+	if (ss == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, ss) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		//printf(token);
+		//printf(" - ");
+
+		lokal_id = atoi(token);
+		token = strtok(NULL, ";");
+
+		//printf(token);
+		//printf("\n");
+
+		//lokal_popis = strtoken;
+		//strcpy_s(lokal_popis, 30, token);
+
+		//int delkatokenu; 
+		const int delkatokenu = sizeof(token);
+		char lokal_popis[delkatokenu];
+		int i;
+		for (i = 0; i < delkatokenu; i++) {
+			lokal_popis[i] = token[i];
+			cout << lokal_popis[i];
+		}
+		addsport(lokal_id, lokal_popis, &sprvni);
+	}
+	fclose(ss);
+}
+
+void nacist_liga() {//jeste nefunguje
+	FILE* ss;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+
+	int lokal_id;
+	//char lokal_popis;
+
+	//int i;			// posun po polozkach
+
+	ss = fopen("liga.txt", "r");
+	if (ss == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, ss) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		//printf(token);
+		//printf(" - ");
+
+		lokal_id = atoi(token);
+		token = strtok(NULL, ";");
+
+		//printf(token);
+		//printf("\n");
+
+		//lokal_popis = strtoken;
+		//strcpy_s(lokal_popis, 30, token);
+
+		//int delkatokenu; 
+		const int delkatokenu = sizeof(token);
+		char lokal_popis[delkatokenu];
+		int i;
+		for (i = 0; i < delkatokenu; i++) {
+			lokal_popis[i] = token[i];
+			cout << lokal_popis[i];
+		}
+		addsport(lokal_id, lokal_popis, &sprvni);
+	}
+	fclose(ss);
+}
+
+
 
 int main()
 {
 	nacist_sport();
+	int lid;
+	scanf_s("%d", &lid);
 	
-	exit(0);
 
 	char cmd;
 	do

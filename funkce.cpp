@@ -296,7 +296,7 @@ void delzapas(int zapas_id, zapas** zprvni)
 	}
 }
 
-//struct sport* sprvnip = NULL; // globalni ukazatel na prvni sport
+/*
 void nacist_sport() {
 	FILE* ss;
 	char str[60];  //sem nacitame radky
@@ -334,16 +334,12 @@ void nacist_sport() {
 		for (i = 0; i < delkatokenu; i++) {
 			lokal_popis[i] = token[i];
 			cout << lokal_popis[i];
-
-
-
-
-
-
 		}
+		
+		//return lokal_id, lokal_popis;
 	}
 
 
 	fclose(ss);
-	
-}
+	//return lokal_id, lokal_popis;
+}*/
