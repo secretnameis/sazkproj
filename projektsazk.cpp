@@ -4,15 +4,17 @@
 #include "funkce.h"
 #include <fstream>
 #include <string>
+#include <thread>
 
 using namespace std;
+
 
 //struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
 //struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 struct sport* sprvni = NULL; // globalni ukazatel na prvni sport
 struct liga* lprvni = NULL; // globalni ukazatel na prvni ligu
-struct tym* tprvni = NULL; // globalni ukazatel na prvni auto
-struct zapas* zprvni = NULL; // globalni ukazatel na prvni auto
+struct tym* tprvni = NULL; // globalni ukazatel na prvni tym
+struct zapas* zprvni = NULL; // globalni ukazatel na prvni zapas
 
 // funkce pro malezeni max ID v seznamu
 int max_sport_ID() {
@@ -77,8 +79,8 @@ int max_zapas_ID() {
 
 
 
-
-char* sportp(int a) {//vypis podlwe id
+//vypis podle id
+char* sportp(int a) {
 	int test;
 	struct sport* akts = sprvni;
 	while (akts)
@@ -86,7 +88,6 @@ char* sportp(int a) {//vypis podlwe id
 		test = akts->sport_id;
 		if (test == a)
 		{
-			//printf("%d %s", akts->sport_id, akts->sport_nazev);
 			char* vrat = akts->sport_nazev;
 			return vrat;
 		}
@@ -138,10 +139,10 @@ void Onadd() // pridavani veci do seznamu
 	char  cm;
 	system("cls");
 	printf("co chces pridat:\n");
-	printf("S: sport  ");
-	printf("L: liga  ");
-	printf("T: tym   ");
-	printf("Z: zapas "); 
+	printf("S: sport    ");
+	printf("L: liga    ");
+	printf("T: tym    ");
+	printf("Z: zapas    "); 
 	printf("Q: navrat do menu\n\n");
 	cm = tolower(getchar());
 	while (getchar() != '\n');
@@ -257,37 +258,94 @@ void Onadd() // pridavani veci do seznamu
 }
 
 void Ondel()
-{//mazani, pridat vyber co mazat; ochrana pred smazanim sportu pokud ma registrovan zapas
-	//mazani podle sportid, zapas id
-
+{
 	char  cmq;
 	system("cls");
 	printf("co chces smazat:\n");
-	printf("Z: zapas    "); 
-	printf("I: informace   "); // sporty, ligy, tym
-	printf("V: sazky   "); 
+	printf("S: sport  ");
+	printf("T: tym    "); // sporty, ligy, tym
+	printf("L: liga   ");
+	printf("Z: zapas  ");
 	printf("Q: navrat do menu\n\n");
 	cmq = tolower(getchar());
 	while (getchar() != '\n');
 
 	switch (cmq)
 	{
+	case 's':
+		int spid;
+
+		printf("\nsport id : ");
+		scanf_s("%d", &spid);
+		while (getchar() != '\n');
+		delsport(spid, &sprvni);
+		break;
+	case 't':
+		int tid;
+		printf("\ntym id : ");
+		scanf_s("%d", &tid);
+		while (getchar() != '\n');
+		deltym(tid,&tprvni);
+		break;
+	case 'l':
+		int lid;
+		printf("\nliga id : ");
+		scanf_s("%d", &lid);
+		while (getchar() != '\n');
+		delliga(lid,&lprvni);
+		break;
+
 	case 'z':
-		//OnAdd();					// volame pridani
-		break;
-	case 'i':
-	//	OnDel();					// volame mazani
-		break;
-	case 'v':
-	//	ShowCars();
+		int zpid;
+		printf("\nzapas id : ");
+		scanf_s("%d", &zpid);
+		while (getchar() != '\n');
+		delzapas(zpid,&zprvni);
 		break;
 	}
-
 }
+
 
 void editovat()
-{//asi se bude komplet prepisovat vybrany retezec
+{
+	char  cme;
+	system("cls");
+	printf("co chces editovat:\n");
+	printf("S: sport    ");
+	printf("T: tym    "); // sporty, ligy, tym
+	printf("L: liga    ");
+	printf("Z: zapas    ");
+	printf("Q: navrat do menu\n\n");
+	cme = tolower(getchar());
+	while (getchar() != '\n');
+
+	switch (cme)
+	{
+	case 's':
+		int szmena;
+		char snzmena[ZNACKA_SIZE];
+		printf("\n id sportu: ");
+		scanf_s("%d", &szmena);
+		printf("\n novy nazev sportu: ");
+		scanf_s("%s",ZNACKA_SIZE ,snzmena);
+		while (getchar() != '\n');
+		//edits(szmena,snzmena);
+		break;
+
+	case 't':
+		
+		break;
+	case 'l':
+		//	ShowCars();
+		break;
+
+	case 'z':
+		//	ShowCars();
+		break;
+	}
 }
+
+
 
 void zobrazit()
 {
@@ -299,11 +357,11 @@ void zobrazit()
 	char sh;
 		system("cls");		// smaze obrazovku
 		printf("co chces tisknout\n");
-		printf("S: sport ");
-		printf("L: liga  ");
-		printf("T: tym   ");
-		printf("Z: zapas ");
-		printf("V: kdo vyhral");
+		printf("S: sport    ");
+		printf("L: liga    ");
+		printf("T: tym    ");
+		printf("Z: zapas    ");
+		printf("V: kdo vyhral    ");
 		printf("Q: zpet do menu\n\n");
 
 		sh = tolower(getchar());
@@ -316,7 +374,7 @@ void zobrazit()
 			while (aktsport) // prochazeni seznamu
 			{
 				printf("%d %s\n", aktsport->sport_id, aktsport->sport_nazev); // tisk radku
-				aktsport = aktsport->sport_dalsi; // posun na dalsi auto
+				aktsport = aktsport->sport_dalsi; 
 			}
 			getchar();
 
@@ -327,7 +385,7 @@ void zobrazit()
 			while (aktliga) // prochazeni seznamu
 			{
 				printf("%d %s\n", aktliga->liga_id, aktliga->liga_nazev); // tisk radku
-				aktliga = aktliga->liga_dalsi; // posun na dalsi auto
+				aktliga = aktliga->liga_dalsi; // posun na dalsi polozku
 			}
 			getchar();
 
@@ -341,7 +399,7 @@ void zobrazit()
 				u= akttym->tym_sport;
 				o = akttym->tym_liga;
 				printf("%d %s %s\n", akttym->tym_id, akttym->tym_nazev, sportp(u),ligap(o)); // tisk radku
-				akttym = akttym->tym_dalsi; // posun na dalsi auto
+				akttym = akttym->tym_dalsi; // posunuti ukazatele
 			}
 			getchar();
 
@@ -363,15 +421,55 @@ void zobrazit()
 
 			break;
 
-		case 'v':
-			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+		case 'v' | 'V': // zobrazeni vysledku kdo vyhral, funguje momentalne jen na prvni zapas
+
+			while (aktzap)
+			{
+				int skore_tymA = aktzap->zapas_skoreA;
+				int skore_tymB = aktzap->zapas_skoreB;
+				char* sazka = aktzap->zapas_sazka;
+
+				if (skore_tymA > skore_tymB) 
+				{
+					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi; //nedokazu urcit, kde to spravne dat aby to preslo na dalsi zapas, nutno spravne zaradit
+					break;
+				}
+				if (skore_tymA < skore_tymB)
+				{
+					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				if (skore_tymA == skore_tymB)
+				{
+					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				else
+					cout << "Chyba.";
+			}
 			break;
-		}	
+			getchar();
+			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+
+		}		
 }
 
 
 void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 {
+	remove("sport.txt");
+	remove("liga.txt");
+	remove("tym.txt");
+	remove("zapas.txt");
 	struct sport* aktsport = sprvni; //ulozeni sportu
 	while (aktsport)
 	{
@@ -381,7 +479,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapsport("sport.txt", ios::out | ios::app);
 		if (zapsport.is_open())
 		{
-			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << endl;
+			zapsport << zapis_sport_id << ";" << zapis_sport_nazev << ";" << endl;
 			aktsport = aktsport->sport_dalsi;
 			zapsport.close();
 
@@ -399,7 +497,9 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapliga("liga.txt", ios::out | ios::app);
 		if (zapliga.is_open())
 		{
-			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << endl;
+
+			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << ";" << endl;
+
 			aktliga = aktliga->liga_dalsi;
 			zapliga.close();
 		}
@@ -418,7 +518,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zaptym("tym.txt", ios::out | ios::app);
 		if (zaptym.is_open())
 		{
-			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << endl;
+			zaptym << zapis_tym_id << ";" << zapis_tym_nazev << ";" << zapis_tym_sport << ";" << zapis_tym_liga << ";" << endl;
 			akttym = akttym->tym_dalsi;
 			zaptym.close();
 		}
@@ -443,7 +543,9 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapzapas("zapas.txt", ios::out | ios::app);
 		if (zapzapas.is_open())
 		{
-			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << endl;
+
+			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << ";" << endl;
+
 			aktzapas = aktzapas->zapas_dalsi;
 			zapzapas.close();
 		}
@@ -494,19 +596,112 @@ void testdata() {
 	addzapas(max_zapas_ID(), zapas_sport2, zapas_liga2, zapas_datum2, zapas_misto2, zapas_tymA2, zapas_tymB2, zapas_skoreA2, zapas_skoreB2, zapas_sazka2, &zprvni);
 	}
 
+//nacitani ze souboru
+void nacist_sport() {
+	FILE* ss;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+
+	int lokal_id;
+	//char lokal_popis;
+
+	//int i;			// posun po polozkach
+
+	ss = fopen("sport.txt", "r");
+	if (ss == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, ss) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		//printf(token);
+		//printf(" - ");
+
+		lokal_id = atoi(token);
+		token = strtok(NULL, ";");
+
+		//printf(token);
+		//printf("\n");
+
+		//lokal_popis = strtoken;
+		//strcpy_s(lokal_popis, 30, token);
+
+		//int delkatokenu; 
+		const int delkatokenu = sizeof(token);
+		char lokal_popis[delkatokenu];
+		int i;
+		for (i = 0; i < delkatokenu; i++) {
+			lokal_popis[i] = token[i];
+			cout << lokal_popis[i];
+		}
+		addsport(lokal_id, lokal_popis, &sprvni);
+	}
+	fclose(ss);
+}
+
+void nacist_liga() {//jeste nefunguje
+	FILE* ss;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+
+	int lokal_id;
+	//char lokal_popis;
+
+	//int i;			// posun po polozkach
+
+	ss = fopen("liga.txt", "r");
+	if (ss == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, ss) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		//printf(token);
+		//printf(" - ");
+
+		lokal_id = atoi(token);
+		token = strtok(NULL, ";");
+
+		//printf(token);
+		//printf("\n");
+
+		//lokal_popis = strtoken;
+		//strcpy_s(lokal_popis, 30, token);
+
+		//int delkatokenu; 
+		const int delkatokenu = sizeof(token);
+		char lokal_popis[delkatokenu];
+		int i;
+		for (i = 0; i < delkatokenu; i++) {
+			lokal_popis[i] = token[i];
+			cout << lokal_popis[i];
+		}
+		addsport(lokal_id, lokal_popis, &sprvni);
+	}
+	fclose(ss);
+}
+
+
 
 int main()
 {
+	nacist_sport();
+	int lid;
+	scanf_s("%d", &lid);
+	
+
 	char cmd;
 	do
 	{
 		system("cls");		// smaze obrazovku
 		printf("Hlavni menu\n");
 		printf("A: Pridat    ");
-		printf("D: Smazat    ");
-		printf("E: Editovat  ");
-		printf("P: Tisk      ");
-		printf("N: test data ");
+		printf("S: Smazat    ");
+		printf("E: Editovat    ");
+		printf("P: Tisk    ");
+		printf("N: test data    ");
 		printf("Q: ukoncit\n\n");
 		
 
@@ -519,7 +714,7 @@ int main()
 			Onadd();
 			break;
 
-		case 'd':
+		case 's':
 			Ondel();					
 			break;
 		case 'e':
