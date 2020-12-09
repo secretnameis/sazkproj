@@ -220,6 +220,7 @@ void delsport(int spot_id, sport** sprvni)
 		}
 		akts = akts->sport_dalsi; // posun na dalsi sport
 	}
+
 }
 
 
