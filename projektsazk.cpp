@@ -4,6 +4,7 @@
 #include "funkce.h"
 #include <fstream>
 #include <string>
+#include <thread>
 
 using namespace std;
 
@@ -420,10 +421,46 @@ void zobrazit()
 
 			break;
 
-		case 'v':
-			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+		case 'v' | 'V': // zobrazeni vysledku kdo vyhral, funguje momentalne jen na prvni zapas
+
+			while (aktzap)
+			{
+				int skore_tymA = aktzap->zapas_skoreA;
+				int skore_tymB = aktzap->zapas_skoreB;
+				char* sazka = aktzap->zapas_sazka;
+
+				if (skore_tymA > skore_tymB) 
+				{
+					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi; //nedokazu urcit, kde to spravne dat aby to preslo na dalsi zapas, nutno spravne zaradit
+					break;
+				}
+				if (skore_tymA < skore_tymB)
+				{
+					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				if (skore_tymA == skore_tymB)
+				{
+					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					getchar();
+					aktzap = aktzap->zapas_dalsi;
+					break;
+				}
+				else
+					cout << "Chyba.";
+			}
 			break;
-		}	
+			getchar();
+			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+
+		}		
 }
 
 
@@ -460,7 +497,9 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapliga("liga.txt", ios::out | ios::app);
 		if (zapliga.is_open())
 		{
+
 			zapliga << zapis_liga_id << ";" << zapis_liga_nazev << ";" << endl;
+
 			aktliga = aktliga->liga_dalsi;
 			zapliga.close();
 		}
@@ -504,7 +543,9 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 		fstream zapzapas("zapas.txt", ios::out | ios::app);
 		if (zapzapas.is_open())
 		{
+
 			zapzapas << zapis_zapas_id << ";" << zapis_zapas_sport << ";" << zapis_zapas_liga << ";" << zapis_zapas_datum << ";" << zapis_zapas_misto << ";" << zapis_zapas_tymA << ";" << zapis_zapas_tymB << ";" << zapis_zapas_skoreA << ";" << zapis_zapas_skoreB << ";" << zapis_zapas_sazka << ";" << endl;
+
 			aktzapas = aktzapas->zapas_dalsi;
 			zapzapas.close();
 		}
