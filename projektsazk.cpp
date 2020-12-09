@@ -382,26 +382,28 @@ void zobrazit()
 
 			while (aktzap)
 			{
+				int tymA = aktzap->zapas_tymA;
+				int tymB = aktzap->zapas_tymB;
 				int skore_tymA = aktzap->zapas_skoreA;
 				int skore_tymB = aktzap->zapas_skoreB;
 				char* sazka = aktzap->zapas_sazka;
 
 				if (skore_tymA > skore_tymB) 
 				{
-					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
-					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					cout << "Tym " << tymp(tymA) << " zvitezil " << skore_tymA << " : " << skore_tymB << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc\n" << endl;
 					
 				}
 				if (skore_tymA < skore_tymB)
 				{
-					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
-					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					cout << "Tym "<< tymp(tymB) <<" B zvitezil " << skore_tymB << " : " << skore_tymA  << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc\n" << endl;
 				
 				}
 				if (skore_tymA == skore_tymB)
 				{
-					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
-					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
+					cout << "Tymy "<< tymp(tymA) <<" a " << tymp(tymB) <<" remizovali " << skore_tymA << " : " << skore_tymB  << endl;
+					cout << "Sazejici mohl vyhrat: " << sazka << " Kc\n" << endl;
 					
 				}
 				
