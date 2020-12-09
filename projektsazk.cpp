@@ -637,8 +637,7 @@ int main()
 {
 	nacist_sport();
 	nacist_liga();
-	int lid;
-	scanf_s("%d", &lid);
+	testdata();
 	
 
 	char cmd;
@@ -649,7 +648,6 @@ int main()
 		printf("A: Pridat    ");
 		printf("S: Smazat    ");
 		printf("P: Tisk    ");
-		printf("N: test data    ");
 		printf("Q: ukoncit\n\n");
 		
 
@@ -669,9 +667,6 @@ int main()
 			zobrazit();
 			break;
 
-		case 'n':
-			testdata();
-			break;
 		}
 	} while (cmd != 'q');     // koncime az pri Q
 
