@@ -306,44 +306,7 @@ void Ondel()
 }
 
 
-void editovat()
-{
-	char  cme;
-	system("cls");
-	printf("co chces editovat:\n");
-	printf("S: sport    ");
-	printf("T: tym    "); // sporty, ligy, tym
-	printf("L: liga    ");
-	printf("Z: zapas    ");
-	printf("Q: navrat do menu\n\n");
-	cme = tolower(getchar());
-	while (getchar() != '\n');
 
-	switch (cme)
-	{
-	case 's':
-		int szmena;
-		char snzmena[ZNACKA_SIZE];
-		printf("\n id sportu: ");
-		scanf_s("%d", &szmena);
-		printf("\n novy nazev sportu: ");
-		scanf_s("%s",ZNACKA_SIZE ,snzmena);
-		while (getchar() != '\n');
-		//edits(szmena,snzmena);
-		break;
-
-	case 't':
-		
-		break;
-	case 'l':
-		//	ShowCars();
-		break;
-
-	case 'z':
-		//	ShowCars();
-		break;
-	}
-}
 
 
 
@@ -433,32 +396,27 @@ void zobrazit()
 				{
 					cout << "Tym A zvitezil " << skore_tymA << " : " << skore_tymB << " ." << endl;
 					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
-					getchar();
-					aktzap = aktzap->zapas_dalsi; //nedokazu urcit, kde to spravne dat aby to preslo na dalsi zapas, nutno spravne zaradit
-					break;
+					
 				}
 				if (skore_tymA < skore_tymB)
 				{
 					cout << "Tym B zvitezil " << skore_tymB << " : " << skore_tymA << " ." << endl;
 					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
-					getchar();
-					aktzap = aktzap->zapas_dalsi;
-					break;
+				
 				}
 				if (skore_tymA == skore_tymB)
 				{
 					cout << "Tymy remizovali " << skore_tymA << " : " << skore_tymB << " ." << endl;
 					cout << "Sazejici mohl vyhrat: " << sazka << " Kc." << endl;
-					getchar();
-					aktzap = aktzap->zapas_dalsi;
-					break;
+					
 				}
-				else
-					cout << "Chyba.";
+				
+				aktzap = aktzap->zapas_dalsi;
 			}
-			break;
+
+			
 			getchar();
-			//vzit hodnoty ze zapasu (skore, to porovnat, vypsat nejak kdo vyhral, + treba kurz (zapas->sazka))
+			
 
 		}		
 }
@@ -555,6 +513,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 }
 void testdata() {
 	//sporty
+	/*
 	int sid = 0;
 	char snazev[ZNACKA_SIZE] = "hokej";
 	char snazev2[ZNACKA_SIZE] = "lyze";
@@ -562,14 +521,14 @@ void testdata() {
 	addsport(max_sport_ID(),snazev, &sprvni);
 	addsport(max_sport_ID(),snazev2, &sprvni);
 	addsport(max_sport_ID(), snazev3, &sprvni);
-
+	
 	//liga
 	int liga_id;
 	char liga_nazev[ZNACKA_SIZE]="prvniL", liga_nazev1[ZNACKA_SIZE] = "druhaL", liga_nazev2[ZNACKA_SIZE] = "tretiL";
 	addliga(max_liga_ID(), liga_nazev, &lprvni);
 	addliga(max_liga_ID(), liga_nazev1, &lprvni);
 	addliga(max_liga_ID(), liga_nazev2, &lprvni);
-
+	*/
 
 	//tym
 	int tym_id;
@@ -590,7 +549,7 @@ void testdata() {
 	int zapas_tymB = 3, zapas_tymB1 = 1, zapas_tymB2 = 2;
 	int zapas_skoreA=10, zapas_skoreA1 = 20, zapas_skoreA2 = 30;
 	int zapas_skoreB=5, zapas_skoreB1 = 40, zapas_skoreB2 = 50;
-	char zapas_sazka[ZNACKA_SIZE]="sazka1", zapas_sazka1[ZNACKA_SIZE] = "sazka2", zapas_sazka2[ZNACKA_SIZE] = "sazka3";
+	char zapas_sazka[ZNACKA_SIZE]="300", zapas_sazka1[ZNACKA_SIZE] = "200", zapas_sazka2[ZNACKA_SIZE] = "100";
 	addzapas(max_zapas_ID(), zapas_sport, zapas_liga, zapas_datum, zapas_misto, zapas_tymA, zapas_tymB, zapas_skoreA, zapas_skoreB, zapas_sazka, &zprvni);
 	addzapas(max_zapas_ID(), zapas_sport1, zapas_liga1, zapas_datum1, zapas_misto1, zapas_tymA1, zapas_tymB1, zapas_skoreA1, zapas_skoreB1, zapas_sazka1, &zprvni);
 	addzapas(max_zapas_ID(), zapas_sport2, zapas_liga2, zapas_datum2, zapas_misto2, zapas_tymA2, zapas_tymB2, zapas_skoreA2, zapas_skoreB2, zapas_sazka2, &zprvni);
@@ -640,37 +599,24 @@ void nacist_sport() {
 	fclose(ss);
 }
 
-void nacist_liga() {//jeste nefunguje
-	FILE* ss;
+void nacist_liga() {
+	FILE* sl;
 	char str[60];  //sem nacitame radky
 	char* token;   // sem rozdelime polozky radku
 
 	int lokal_id;
-	//char lokal_popis;
 
-	//int i;			// posun po polozkach
-
-	ss = fopen("liga.txt", "r");
-	if (ss == NULL) {
+	sl = fopen("liga.txt", "r");
+	if (sl == NULL) {
 		perror("Nejde otevrit soubor");
 
 
 	}
-	while (fgets(str, 60, ss) != NULL) {
+	while (fgets(str, 60, sl) != NULL) {
 		token = strtok(str, ";");  // prvni token-polozka
-		//printf(token);
-		//printf(" - ");
-
 		lokal_id = atoi(token);
 		token = strtok(NULL, ";");
 
-		//printf(token);
-		//printf("\n");
-
-		//lokal_popis = strtoken;
-		//strcpy_s(lokal_popis, 30, token);
-
-		//int delkatokenu; 
 		const int delkatokenu = sizeof(token);
 		char lokal_popis[delkatokenu];
 		int i;
@@ -678,16 +624,19 @@ void nacist_liga() {//jeste nefunguje
 			lokal_popis[i] = token[i];
 			cout << lokal_popis[i];
 		}
-		addsport(lokal_id, lokal_popis, &sprvni);
+		addliga(lokal_id, lokal_popis, &lprvni);
 	}
-	fclose(ss);
+	fclose(sl);
 }
+
+
 
 
 
 int main()
 {
 	nacist_sport();
+	nacist_liga();
 	int lid;
 	scanf_s("%d", &lid);
 	
@@ -699,7 +648,6 @@ int main()
 		printf("Hlavni menu\n");
 		printf("A: Pridat    ");
 		printf("S: Smazat    ");
-		printf("E: Editovat    ");
 		printf("P: Tisk    ");
 		printf("N: test data    ");
 		printf("Q: ukoncit\n\n");
@@ -716,9 +664,6 @@ int main()
 
 		case 's':
 			Ondel();					
-			break;
-		case 'e':
-			editovat();					
 			break;
 		case 'p':
 			zobrazit();

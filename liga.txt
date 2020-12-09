@@ -1,0 +1,3 @@
+1;prvniL;
+2;druhaL;
+3;tretiL;
