@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -195,68 +198,148 @@ void addzapas(int zapas_id, int zapas_sport, int zapas_liga, char* zapas_datum, 
 
 }
 
+void delsport(int spot_id, sport** sprvni)
+{
+	struct sport* akts;
+
+	while (*sprvni && (*sprvni)->sport_id == spot_id)
+	{
+		struct sport* newPrvni = (*sprvni)->sport_dalsi;
+		free(*sprvni);  // uvolneni auta z pameti
+		*sprvni = newPrvni;
+	}
+
+	akts = *sprvni;
+	while (akts && akts->sport_dalsi) // prochazeni seznamu
+	{
+		if (akts->sport_dalsi->sport_id == spot_id) // sport je ke smazani
+		{
+			struct sport* newDalsi = akts->sport_dalsi->sport_dalsi;
+			free(akts->sport_dalsi);  // uvolneni sportu z pameti
+			akts->sport_dalsi = newDalsi;
+		}
+		akts = akts->sport_dalsi; // posun na dalsi sport
+	}
+}
 
 
+void delliga(int lid, liga** lprvni)
+{
+	struct liga* aktl;
+
+	while (*lprvni && (*lprvni)->liga_id == lid)
+	{
+		struct liga* newPrvni = (*lprvni)->liga_dalsi;
+		free(*lprvni);  // uvolneni auta z pameti
+		*lprvni = newPrvni;
+	}
+
+	aktl = *lprvni;
+	while (aktl && aktl->liga_dalsi)
+	{
+		if (aktl->liga_dalsi->liga_id == lid)
+		{
+			struct liga* newliga_dalsi = aktl->liga_dalsi->liga_dalsi;
+			free(aktl->liga_dalsi);
+			aktl->liga_dalsi = newliga_dalsi;
+		}
+		aktl = aktl->liga_dalsi;
+	}
+}
 
 
-//jiz neplati, bude predelano
+void deltym(int tym_id, tym** tprvni)
+{
+	struct tym* aktt;
+
+	while (*tprvni && (*tprvni)->tym_id == tym_id)
+	{
+		struct tym* newPrvni = (*tprvni)->tym_dalsi;
+		free(*tprvni);  // uvolneni auta z pameti
+		*tprvni = newPrvni;
+	}
+
+	aktt = *tprvni;
+	while (aktt && aktt->tym_dalsi) // prochazeni seznamu
+	{
+		if (aktt->tym_dalsi->tym_id == tym_id) // sport je ke smazani
+		{
+			struct tym* newDalsi = aktt->tym_dalsi->tym_dalsi;
+			free(aktt->tym_dalsi);  // uvolneni sportu z pameti
+			aktt->tym_dalsi = newDalsi;
+		}
+		aktt = aktt->tym_dalsi; // posun na dalsi sport
+	}
+}
+
+void delzapas(int zapas_id, zapas** zprvni)
+{
+	struct zapas* aktz;
+
+	while (*zprvni && (*zprvni)->zapas_id == zapas_id)
+	{
+		struct zapas* newPrvni = (*zprvni)->zapas_dalsi;
+		free(*zprvni);  // uvolneni auta z pameti
+		*zprvni = newPrvni;
+	}
+
+	aktz = *zprvni;
+	while (aktz && aktz->zapas_dalsi)
+	{
+		if (aktz->zapas_dalsi->zapas_id == zapas_id)
+		{
+			struct zapas* newDalsi = aktz->zapas_dalsi->zapas_dalsi;
+			free(aktz->zapas_dalsi);
+			aktz->zapas_dalsi = newDalsi;
+		}
+		aktz = aktz->zapas_dalsi;
+	}
+}
+
 /*
-void addzapas(int idzap, char* tema, char* cas, char* datum, char* misto, char* stav, struct t_zapasy** uk_prvni)
-{
-	struct t_zapasy* novyzapas; // ukazatel pro novy zapas
-	struct t_zapasy* aktzapas; // ukazatel na aktualni zapas
+void nacist_sport() {
+	FILE* ss;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+	
+	int lokal_id;
+	//char lokal_popis;
+	
+	//int i;			// posun po polozkach
 
-	//alokace dynamicke promenne
-	novyzapas = (struct t_zapasy*)malloc(sizeof(struct t_zapasy));
+	ss = fopen("sport.txt", "r");
+	if (ss == NULL) {
+		perror("Nejde otevrit soubor");
+		
 
-
-
-	//naplneni struktury
-	//strcpy_s(novyzapas->cas, 30, cas);    nekde ziskat ID  WIP
-	novyzapas->idzap = idzap;
-	strcpy_s(novyzapas->tema, 30, tema);
-	strcpy_s(novyzapas->cas, 30, cas);
-	strcpy_s(novyzapas->datum, 30, datum);
-	strcpy_s(novyzapas->misto, 30, misto);
-	strcpy_s(novyzapas->stav, 30, stav);
-	novyzapas->next = NULL;
-
-	//razeni seznamu
-	if (*uk_prvni == NULL) // linearni seznam je prazdny
-	{
-		*uk_prvni = novyzapas;
-		return;
 	}
-	else if (novyzapas->idzap < (*uk_prvni)->idzap) // vlozime na zacatek 
-	{
-		novyzapas->next = *uk_prvni;
-		*uk_prvni = novyzapas;
-		return;
-	}
+	while (fgets(str, 60, ss) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		printf(token);
+		printf(" - ");
 
-	//razeni seznamu podle idzap
-	aktzapas = *uk_prvni;
-	while (aktzapas) // prochazeni seznamu
-	{
-		if (aktzapas->next == NULL) // jsme na poslednim zapase
-		{
-			aktzapas->next = novyzapas; // pridavame na konec
-			return;
+		lokal_id = atoi(token);
+		token = strtok(NULL, ";");
+
+		printf(token);
+		printf("\n");
+
+		//lokal_popis = strtoken;
+		//strcpy_s(lokal_popis, 30, token);
+
+		//int delkatokenu; 
+		const int delkatokenu = sizeof(token);
+		char lokal_popis[delkatokenu];
+		int i;
+		for (i = 0; i < delkatokenu; i++) {
+			lokal_popis[i] = token[i];
+			cout << lokal_popis[i];
 		}
-		else if (novyzapas->idzap < aktzapas->next->idzap)
-		{
-			novyzapas->next = aktzapas->next; // vlozime za aktzapas
-			aktzapas->next = novyzapas;
-			return;
-		}
-		aktzapas = aktzapas->next; // posun na dalsi auto
+		
+		//return lokal_id, lokal_popis;
 	}
 
-}
 
-
-void smazat(char* sport, char* liga, char* tym, char* zapas, char* kurz, struct t_databaze** uk_prvni)
-{
-	printf("test");
-}
-*/
+	fclose(ss);
+	//return lokal_id, lokal_popis;
+}*/
