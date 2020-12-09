@@ -104,7 +104,8 @@ void addtym(int tym_id, char* tym_nazev, int tym_sport, int tym_liga, tym** tym_
 {
 	struct tym* novytym;
 	struct tym* akttym;
-
+	int ui;
+	ui = tym_liga;
 	// alokace dynamicke promenne
 	novytym = (struct tym*)malloc(sizeof(struct tym));
 

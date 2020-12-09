@@ -9,8 +9,6 @@
 using namespace std;
 
 
-//struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
-//struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 struct sport* sprvni = NULL; // globalni ukazatel na prvni sport
 struct liga* lprvni = NULL; // globalni ukazatel na prvni ligu
 struct tym* tprvni = NULL; // globalni ukazatel na prvni tym
@@ -306,10 +304,6 @@ void Ondel()
 }
 
 
-
-
-
-
 void zobrazit()
 {
 	struct sport* aktsport = sprvni; // ukazatel na aktualni auto
@@ -360,8 +354,8 @@ void zobrazit()
 			{
 				int u,o;
 				u= akttym->tym_sport;
-				o = akttym->tym_liga;
-				printf("%d %s %s\n", akttym->tym_id, akttym->tym_nazev, sportp(u),ligap(o)); // tisk radku
+				o= akttym->tym_liga;
+				printf("%d %s %s %s\n", akttym->tym_id, akttym->tym_nazev, sportp(u),ligap(o)); // tisk radku
 				akttym = akttym->tym_dalsi; // posunuti ukazatele
 			}
 			getchar();
@@ -513,7 +507,7 @@ void ulozeni() //ulozi hodnoty z t_zapasy do soboury zapasy.txt
 }
 void testdata() {
 	//sporty
-	/*
+	
 	int sid = 0;
 	char snazev[ZNACKA_SIZE] = "hokej";
 	char snazev2[ZNACKA_SIZE] = "lyze";
@@ -528,13 +522,14 @@ void testdata() {
 	addliga(max_liga_ID(), liga_nazev, &lprvni);
 	addliga(max_liga_ID(), liga_nazev1, &lprvni);
 	addliga(max_liga_ID(), liga_nazev2, &lprvni);
-	*/
+	
 
 	//tym
+	
 	int tym_id;
 	char tym_nazev[ZNACKA_SIZE]="tymA", tym_nazev1[ZNACKA_SIZE] = "tymB", tym_nazev2[ZNACKA_SIZE] = "tymC";
 	int tym_sport=1, tym_sport2 = 2, tym_sport1 = 3;
-	int tym_liga=1, tym_liga2=2,tym_liga1=1; //max_tym_ID()
+	int tym_liga=1, tym_liga1=2,tym_liga2=1; //max_tym_ID()
 	addtym(max_tym_ID(), tym_nazev, tym_sport, tym_liga, &tprvni);
 	addtym(max_tym_ID(), tym_nazev1, tym_sport1, tym_liga1, &tprvni);
 	addtym(max_tym_ID(), tym_nazev2, tym_sport2, tym_liga2, &tprvni);
@@ -624,21 +619,132 @@ void nacist_liga() {
 			lokal_popis[i] = token[i];
 			cout << lokal_popis[i];
 		}
+
 		addliga(lokal_id, lokal_popis, &lprvni);
 	}
 	fclose(sl);
 }
 
 
+void nacist_tym() {
+	FILE* st;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
 
+	int lokal_id; 
+	int lokal_id2; 
+	int lokal_id3;
+
+	st = fopen("tym.txt", "r");
+	if (st == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, st) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		lokal_id = atoi(token);
+		
+		token = strtok(NULL, ";");
+		const int delk = sizeof(token);
+		char lokal_popis1[delk];
+		int a;
+		for (a = 0; a < delk; a++) {
+			lokal_popis1[a] = token[a];
+			cout << lokal_popis1[a];
+		}
+
+		token = strtok(NULL, ";");
+		lokal_id2 = atoi(token);
+
+		token = strtok(NULL, ";");
+		lokal_id3 = atoi(token);
+		int lok = lokal_id3;
+	
+		addtym(lokal_id, lokal_popis1,lokal_id2,lok, &tprvni);
+
+	}
+	fclose(st);
+}
+
+
+void nacist_zapas() {
+	FILE* sz;
+	char str[60];  //sem nacitame radky
+	char* token;   // sem rozdelime polozky radku
+
+	int zap_id,idsport, idliga,TYMA,TYMB,skoreA,skoreB;
+
+	sz = fopen("zapas.txt", "r");
+	if (sz == NULL) {
+		perror("Nejde otevrit soubor");
+
+
+	}
+	while (fgets(str, 60, sz) != NULL) {
+		token = strtok(str, ";");  // prvni token-polozka
+		zap_id = atoi(token);
+
+		token = strtok(NULL, ";");
+		idsport = atoi(token);
+
+		token = strtok(NULL, ";");
+		idliga = atoi(token);
+		
+		token = strtok(NULL, ";");;
+		const int de = sizeof(token);
+		char datum[de];
+		int x;
+		for (x = 0; x < de; x++) {
+			datum[x] = token[x];
+			//cout << datum[x]; 
+		}//datum
+	
+
+		token = strtok(NULL, ";");
+		const int dest = sizeof(token);
+		char misto[dest];
+		int p;
+		for (p = 0; p < dest; p++) {
+			misto[p] = token[p];
+			//cout << misto[p]; //misto
+			}
+
+		token = strtok(NULL, ";");
+		TYMA = atoi(token);
+
+		token = strtok(NULL, ";");
+		TYMB = atoi(token);
+
+		token = strtok(NULL, ";");
+		skoreA = atoi(token);
+		
+		token = strtok(NULL, ";");
+		skoreB = atoi(token);
+
+		token = strtok(NULL, ";");
+		const int desew = sizeof(token);
+		char sazka[desew];
+		int t;
+		for (t = 0; t < desew; t++) {
+			sazka[t] = token[t];
+			cout << sazka[t]; //sazka
+		}
+		addzapas(zap_id,idsport,idliga,datum,misto,TYMA,TYMB,skoreA,skoreB,sazka,&zprvni);
+		}
+	
+	fclose(sz);
+}
 
 
 int main()
 {
 	nacist_sport();
 	nacist_liga();
-	testdata();
-	
+	nacist_tym();
+	nacist_zapas();
+	//testdata();
+	//exit(0);
 
 	char cmd;
 	do
@@ -673,7 +779,6 @@ int main()
 
 	//tady odkaz na zapis vseho do souboru
 	ulozeni();
-
 
 	return 0;
 }
