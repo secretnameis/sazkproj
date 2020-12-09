@@ -7,12 +7,13 @@
 
 using namespace std;
 
+
 //struct t_databaze* first = NULL; // globalni ukazatel na prvni pozici
 //struct t_zapasy* mojep = NULL; // globalni ukazatel na prvni auto
 struct sport* sprvni = NULL; // globalni ukazatel na prvni sport
 struct liga* lprvni = NULL; // globalni ukazatel na prvni ligu
-struct tym* tprvni = NULL; // globalni ukazatel na prvni auto
-struct zapas* zprvni = NULL; // globalni ukazatel na prvni auto
+struct tym* tprvni = NULL; // globalni ukazatel na prvni tym
+struct zapas* zprvni = NULL; // globalni ukazatel na prvni zapas
 
 // funkce pro malezeni max ID v seznamu
 int max_sport_ID() {
@@ -77,8 +78,8 @@ int max_zapas_ID() {
 
 
 
-
-char* sportp(int a) {//vypis podlwe id
+//vypis podle id
+char* sportp(int a) {
 	int test;
 	struct sport* akts = sprvni;
 	while (akts)
@@ -86,7 +87,6 @@ char* sportp(int a) {//vypis podlwe id
 		test = akts->sport_id;
 		if (test == a)
 		{
-			//printf("%d %s", akts->sport_id, akts->sport_nazev);
 			char* vrat = akts->sport_nazev;
 			return vrat;
 		}
@@ -138,10 +138,10 @@ void Onadd() // pridavani veci do seznamu
 	char  cm;
 	system("cls");
 	printf("co chces pridat:\n");
-	printf("S: sport  ");
-	printf("L: liga  ");
-	printf("T: tym   ");
-	printf("Z: zapas "); 
+	printf("S: sport    ");
+	printf("L: liga    ");
+	printf("T: tym    ");
+	printf("Z: zapas    "); 
 	printf("Q: navrat do menu\n\n");
 	cm = tolower(getchar());
 	while (getchar() != '\n');
@@ -257,37 +257,94 @@ void Onadd() // pridavani veci do seznamu
 }
 
 void Ondel()
-{//mazani, pridat vyber co mazat; ochrana pred smazanim sportu pokud ma registrovan zapas
-	//mazani podle sportid, zapas id
-
+{
 	char  cmq;
 	system("cls");
 	printf("co chces smazat:\n");
-	printf("Z: zapas    "); 
-	printf("I: informace   "); // sporty, ligy, tym
-	printf("V: sazky   "); 
+	printf("S: sport  ");
+	printf("T: tym    "); // sporty, ligy, tym
+	printf("L: liga   ");
+	printf("Z: zapas  ");
 	printf("Q: navrat do menu\n\n");
 	cmq = tolower(getchar());
 	while (getchar() != '\n');
 
 	switch (cmq)
 	{
+	case 's':
+		int spid;
+
+		printf("\nsport id : ");
+		scanf_s("%d", &spid);
+		while (getchar() != '\n');
+		delsport(spid, &sprvni);
+		break;
+	case 't':
+		int tid;
+		printf("\ntym id : ");
+		scanf_s("%d", &tid);
+		while (getchar() != '\n');
+		deltym(tid,&tprvni);
+		break;
+	case 'l':
+		int lid;
+		printf("\nliga id : ");
+		scanf_s("%d", &lid);
+		while (getchar() != '\n');
+		delliga(lid,&lprvni);
+		break;
+
 	case 'z':
-		//OnAdd();					// volame pridani
-		break;
-	case 'i':
-	//	OnDel();					// volame mazani
-		break;
-	case 'v':
-	//	ShowCars();
+		int zpid;
+		printf("\nzapas id : ");
+		scanf_s("%d", &zpid);
+		while (getchar() != '\n');
+		delzapas(zpid,&zprvni);
 		break;
 	}
-
 }
+
 
 void editovat()
-{//asi se bude komplet prepisovat vybrany retezec
+{
+	char  cme;
+	system("cls");
+	printf("co chces editovat:\n");
+	printf("S: sport    ");
+	printf("T: tym    "); // sporty, ligy, tym
+	printf("L: liga    ");
+	printf("Z: zapas    ");
+	printf("Q: navrat do menu\n\n");
+	cme = tolower(getchar());
+	while (getchar() != '\n');
+
+	switch (cme)
+	{
+	case 's':
+		int szmena;
+		char snzmena[ZNACKA_SIZE];
+		printf("\n id sportu: ");
+		scanf_s("%d", &szmena);
+		printf("\n novy nazev sportu: ");
+		scanf_s("%s",ZNACKA_SIZE ,snzmena);
+		while (getchar() != '\n');
+		//edits(szmena,snzmena);
+		break;
+
+	case 't':
+		
+		break;
+	case 'l':
+		//	ShowCars();
+		break;
+
+	case 'z':
+		//	ShowCars();
+		break;
+	}
 }
+
+
 
 void zobrazit()
 {
@@ -299,11 +356,11 @@ void zobrazit()
 	char sh;
 		system("cls");		// smaze obrazovku
 		printf("co chces tisknout\n");
-		printf("S: sport ");
-		printf("L: liga  ");
-		printf("T: tym   ");
-		printf("Z: zapas ");
-		printf("V: kdo vyhral");
+		printf("S: sport    ");
+		printf("L: liga    ");
+		printf("T: tym    ");
+		printf("Z: zapas    ");
+		printf("V: kdo vyhral    ");
 		printf("Q: zpet do menu\n\n");
 
 		sh = tolower(getchar());
@@ -316,7 +373,7 @@ void zobrazit()
 			while (aktsport) // prochazeni seznamu
 			{
 				printf("%d %s\n", aktsport->sport_id, aktsport->sport_nazev); // tisk radku
-				aktsport = aktsport->sport_dalsi; // posun na dalsi auto
+				aktsport = aktsport->sport_dalsi; 
 			}
 			getchar();
 
@@ -327,7 +384,7 @@ void zobrazit()
 			while (aktliga) // prochazeni seznamu
 			{
 				printf("%d %s\n", aktliga->liga_id, aktliga->liga_nazev); // tisk radku
-				aktliga = aktliga->liga_dalsi; // posun na dalsi auto
+				aktliga = aktliga->liga_dalsi; // posun na dalsi polozku
 			}
 			getchar();
 
@@ -341,7 +398,7 @@ void zobrazit()
 				u= akttym->tym_sport;
 				o = akttym->tym_liga;
 				printf("%d %s %s\n", akttym->tym_id, akttym->tym_nazev, sportp(u),ligap(o)); // tisk radku
-				akttym = akttym->tym_dalsi; // posun na dalsi auto
+				akttym = akttym->tym_dalsi; // posunuti ukazatele
 			}
 			getchar();
 
@@ -497,16 +554,20 @@ void testdata() {
 
 int main()
 {
+	nacist_sport();
+	
+	exit(0);
+
 	char cmd;
 	do
 	{
 		system("cls");		// smaze obrazovku
 		printf("Hlavni menu\n");
 		printf("A: Pridat    ");
-		printf("D: Smazat    ");
-		printf("E: Editovat  ");
-		printf("P: Tisk      ");
-		printf("N: test data ");
+		printf("S: Smazat    ");
+		printf("E: Editovat    ");
+		printf("P: Tisk    ");
+		printf("N: test data    ");
 		printf("Q: ukoncit\n\n");
 		
 
@@ -519,7 +580,7 @@ int main()
 			Onadd();
 			break;
 
-		case 'd':
+		case 's':
 			Ondel();					
 			break;
 		case 'e':
